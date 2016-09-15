@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using MongoDB.Bson;
+using System;
 
 namespace Nether.Leaderboard.Data.Mongodb
 {
@@ -25,18 +27,21 @@ namespace Nether.Leaderboard.Data.Mongodb
         }
 
         public async Task<List<GameScore>> GetAllHighScoresAsync()
-        {
-            var query = from s in ScoresCollection.AsQueryable()
-                        group s by s.Gamertag
-                        into g
-                        orderby g.Max(s => s.Score) descending 
+        {           
+            var collection = _database.GetCollection<BsonDocument>("scores");
+            var all = collection.Find(new BsonDocument()).ToList();
+            
+            var query = from l in all
+                        group l by l.GetValue("Gamertag") into lbgt           
+                        let topscore = lbgt.Max(x => x.GetValue("Score"))
                         select new GameScore
                         {
-                            Gamertag = g.Key,
-                            Score = g.Max(s => s.Score)
+                            Gamertag = lbgt.Key.AsString,
+                            Score = topscore.AsInt32
                         };
 
-            return await query.ToListAsync();
+            return query.ToList();
+            
         }
     }
 }
