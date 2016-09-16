@@ -34,6 +34,9 @@
       }
     },
     "net451": {
+      "dependencies": {
+        "Nether.Data.DocumentDB": "1.0.0-*"
+      }
     }
   },
   "buildOptions": {

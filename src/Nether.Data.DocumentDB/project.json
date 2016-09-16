@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.Azure.DocumentDB": "1.9.5",
+    "Nether.Data": "1.0.0-*",
+    "Nether.Common.DependencyInjection": "1.0.0-*",
+    "Nether.Common": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "net451": {
+    }
+  }
+}
