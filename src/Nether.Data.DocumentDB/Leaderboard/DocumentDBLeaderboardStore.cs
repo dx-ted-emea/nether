@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
 using Nether.Common;
 using Nether.Data.Leaderboard;
 using System;
@@ -31,9 +32,21 @@ namespace Nether.Data.DocumentDB.Leaderboard
             _databaseName = databaseName;
             _collectionName = collectionName;
         }
-        public Task<List<GameScore>> GetAllHighScoresAsync()
+        public async Task<List<GameScore>> GetAllHighScoresAsync()
         {
-            throw new NotImplementedException();
+            var collection = GetDatabaseCollection();
+
+            var query = _client.CreateDocumentQuery<DocumentDbGamerHighScore>(collection.SelfLink)
+                .OrderByDescending(hs => hs.HighScore)
+                .AsDocumentQuery();
+
+            var response = await query.ExecuteNextAsync<DocumentDbGamerHighScore>();
+
+            // TODO handle navigating paged responses from DocDb
+            // TODO handle paging controlled by caller (Take/Skip/...)
+            return response
+                        .Select(hs => new GameScore { Gamertag = hs.GamerTag, Score = hs.HighScore })
+                        .ToList();
         }
 
         public async Task SaveScoreAsync(GameScore score)
@@ -41,9 +54,36 @@ namespace Nether.Data.DocumentDB.Leaderboard
             // TODO - error handling/logging
             var collection = GetDatabaseCollection();
 
-            var dbScore = score.ToDb();
+            // Currently not storing the individual scores as there's currently nothing driving that
 
-            await _client.CreateDocumentAsync(collection.SelfLink, dbScore);
+            // Could look at wrapping the check and update logic in a user-defined function to make it a single call
+
+            var result = await _client.CreateDocumentQuery<DocumentDbGamerHighScore>(collection.SelfLink)
+                .Where(hs => hs.GamerTag == score.Gamertag)
+                .Take(1) 
+                .AsDocumentQuery()
+                .ExecuteNextAsync<DocumentDbGamerHighScore>();
+            var gamerHighScore = result.FirstOrDefault(); // TODO Create a DocDbFirstAsync helper!!
+
+            if (gamerHighScore == null)
+            {
+                // doesn't exist
+                gamerHighScore = new DocumentDbGamerHighScore
+                {
+                    GamerTag = score.Gamertag,
+                    HighScore = score.Score
+                };
+                await _client.CreateDocumentAsync(collection.SelfLink, gamerHighScore);
+            }
+            else
+            {
+                if (gamerHighScore.HighScore < score.Score)
+                {
+                    // update
+                    gamerHighScore.HighScore = score.Score;
+                    await _client.ReplaceDocumentAsync(gamerHighScore.SelfLink, gamerHighScore);
+                }
+            }
         }
 
         private DocumentCollection GetDatabaseCollection()
