@@ -1,6 +1,9 @@
 
 param(
-    [switch] $NoRestore
+    # Skip dotnet restore   
+    [switch] $NoRestore,
+    # Only build netcoreapp/netstandard version
+    [switch] $NetCoreOnly
     )
 
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -27,8 +30,17 @@ $buildExitCode=0
 Get-Content "$here\build\build-order.txt" `
     | Where-Object { $_ -ne "" } `
     | ForEach-Object { 
-        Write-Output "*** dotnet build $_"
-            dotnet build $_
+        $temp = $_.Split("|")
+        $project = $temp[0]
+        $framework = $temp[1]
+        Write-Output ""
+        if ($NetCoreOnly){
+            Write-Output "*** dotnet build --framework $framework $project"
+            dotnet build --framework $framework $project
+        } else{
+            Write-Output "*** dotnet build $project"
+            dotnet build $project
+        }
         if ($LASTEXITCODE -ne 0){
             $buildExitCode = $LASTEXITCODE
         }
