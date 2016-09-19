@@ -5,12 +5,12 @@ echo "*** Executing tests"
 
 testExitCode=0
 
-while IFS= read -r var
+while IFS='|' read -r project framework
 do
-  if [ "x$var" != "x" ]
+  if [ "x$project" != "x" ]
   then
-    echo "*** dotnet test $var"
-    dotnet test "$var"
+    echo "*** dotnet test --framework $framework $project"
+    dotnet test --framework $framework "$project"
     lastexit=$?
     if [ $lastexit -ne 0 ]
     then

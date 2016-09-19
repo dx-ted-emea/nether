@@ -1,6 +1,6 @@
-src/Nether.Data.MongoDB
-src/Nether.Web
-src/Identity/Nether.Identity.Development
-src/Identity/Nether.Identity.Development.DummyApi
-src/Identity/Nether.Identity.Development.DummyWeb
-tests/Nether.Web.UnitTests
+src/Nether.Data.MongoDB|netstandard1.6
+src/Nether.Web|netcoreapp1.0
+src/Identity/Nether.Identity.Development|netcoreapp1.0
+src/Identity/Nether.Identity.Development.DummyApi|netcoreapp1.0
+src/Identity/Nether.Identity.Development.DummyWeb|netcoreapp1.0
+tests/Nether.Web.UnitTests|netcoreapp1.0
