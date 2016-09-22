@@ -37,6 +37,8 @@ We support and build SDKs for [Unity](http://unity3d.com) but Nether as service 
 
 Assuming you have installed the Prerequisites above, follow the steps to build and run Nether in your chosen environment below.
 
+If you want to configure nether to use a different connection string or data store then see the [Configuration](documentation/Configuration.md) section.
+
 ### Visual Studio
 
 To build Nether from Visual Studio, open `Nether.sln` and trigger a build. 
@@ -61,6 +63,8 @@ To run, set the `ASPNETCORE_ENVIRONMENT` environment variable to `Development` a
 To build Nether from Bash, ensure you have installed the dependencies from the Development Machine Setup above and run `build.sh`
 
 To run, set the `ASPNETCORE_ENVIRONMENT` environment variable to `Development` and then navigate to `src/Nether.Web` and execute `dotnet run`
+
+
 
 ## 3rd party packages
 [MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/2.3.0-rc1)

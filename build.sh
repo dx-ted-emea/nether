@@ -36,15 +36,15 @@ else
 fi
 
 echo
-echo "*** Building projects"
+echo "*** Building projects (.NET Core only)"
 buildExitCode=0
 
-while IFS= read -r var
+while IFS='|' read -r project framework
 do
-  if [ "x$var" != "x" ]
+  if [ "x$project" != "x" ]
   then
-    echo "*** dotnet build $var"
-    dotnet build "$var"
+    echo "*** dotnet build --framework $framework  $project "
+    dotnet build --framework $framework "$project"
     lastexit=$?
     if [ $lastexit -ne 0 ]
     then

@@ -1,9 +1,5 @@
 {
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
@@ -29,7 +25,18 @@
       "imports": [
         "dotnet5.6",
         "portable-net45+win8"
-      ]
+      ],
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.0",
+          "type": "platform"
+        }
+      }
+    },
+    "net451": {
+      "dependencies": {
+        "Nether.Data.DocumentDB": "1.0.0-*"
+      }
     }
   },
   "buildOptions": {
