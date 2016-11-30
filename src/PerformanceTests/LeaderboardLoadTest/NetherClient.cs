@@ -13,6 +13,7 @@ namespace LeaderboardLoadTest
     // This could form the basis of the .NET Client SDK for Nether
     public class NetherClient
     {
+
         private string _accessToken;
         private readonly string _baseUrl;
         private readonly string _clientId;
@@ -28,11 +29,24 @@ namespace LeaderboardLoadTest
             _baseUrl = baseUrl;
             _clientId = clientId;
             _clientSecret = clientSecret;
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(baseUrl),
-            };
+            _httpClient = CreateClient(baseUrl);
         }
+
+        private HttpClient CreateClient(string baseUrl)
+        {
+            //configure client to use cookies
+
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = true,
+                UseCookies = true,
+                CookieContainer = new System.Net.CookieContainer()
+            };
+
+            return new HttpClient(handler) { BaseAddress = new Uri(baseUrl) };
+        }
+
+
         public async Task<OperationResult> LoginUserNamePasswordAsync(string username, string password)
         {
             // TODO - create a type so that the caller can determine success/failure (with message)

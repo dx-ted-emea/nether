@@ -49,7 +49,8 @@ namespace Nether.Data.Sql.Leaderboard
             DateTime lastDay = now.AddHours(-24);
 
             // TODO: consider swithiching to linq in DateAchieved will be part of the GamerScore record
-            var res = Scores.FromSql("select max(score) as score, gamertag , customtag from Scores where DateAchieved between {0} and {1} group by gamertag, customtag", lastDay.ToString(), now.ToString())
+            var res = Scores.FromSql("select max(score) as score, gamertag , customtag from Scores where DateAchieved between {0} and {1} group by gamertag, customtag",
+                lastDay, now)
                 .ToList().Select(s => new GameScore { Gamertag = s.Gamertag, Score = s.Score })
                 .ToList();
             return res;

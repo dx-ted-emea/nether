@@ -32,6 +32,7 @@ namespace Nether.Web.Features.Leaderboard
                 .AddInMemoryClients(Clients.Get())
                 .AddInMemoryScopes(Scopes.Get())
                 .AddInMemoryUsers(Users.Get())
+                .AddInMemoryUsers(Users.GenerateForLoadTest(10000))
                 .AddExtensionGrantValidator<FacebookUserAccessTokenExtensionGrantValidator>()
             ;
             return services;
