@@ -13,7 +13,6 @@ namespace LeaderboardLoadTest
     // This could form the basis of the .NET Client SDK for Nether
     public class NetherClient
     {
-
         private string _accessToken;
         private readonly string _baseUrl;
         private readonly string _clientId;

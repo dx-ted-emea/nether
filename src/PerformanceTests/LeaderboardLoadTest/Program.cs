@@ -54,10 +54,10 @@ namespace LeaderboardLoadTest
 
             _log.WriteLine("Statistics:");
             _log.WriteLine();
-            foreach(var session in gameSessions)
+            foreach (var session in gameSessions)
             {
                 _log.WriteLine("Player {0}", session.Item2.Id);
-                foreach(string callName in session.Item2.CallNames)
+                foreach (string callName in session.Item2.CallNames)
                 {
                     _log.WriteLine("  {0}", callName);
                     _log.WriteLine("    average call duration: {0}ms", session.Item2.GetAvgCallTime(callName));
@@ -67,7 +67,7 @@ namespace LeaderboardLoadTest
             }
 
             _log.WriteLine("total averages:");
-            foreach(string callName in gameSessions.First().Item2.CallNames)
+            foreach (string callName in gameSessions.First().Item2.CallNames)
             {
                 _log.WriteLine("  {0}", callName);
                 _log.WriteLine("    average call duration: {0}ms",
@@ -82,14 +82,13 @@ namespace LeaderboardLoadTest
 
         private void InititialiseUsers(int count)
         {
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 string userName = "loadUser" + i;
                 string password = userName;
 
                 _userNameToPassword.Add(userName, password);
             }
-
         }
     }
 }

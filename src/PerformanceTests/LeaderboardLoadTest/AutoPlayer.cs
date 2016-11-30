@@ -79,14 +79,13 @@ namespace LeaderboardLoadTest
                 }
 
                 List<long> times;
-                if(!_callTimes.TryGetValue("PostScore", out times))
+                if (!_callTimes.TryGetValue("PostScore", out times))
                 {
                     times = new List<long>();
                     _callTimes["PostScore"] = times;
                 }
                 times.Add(_sw.ElapsedMilliseconds);
             }
-
         }
 
         private IDisposable Measure(string callName)
@@ -94,7 +93,7 @@ namespace LeaderboardLoadTest
             return new InternalMeasure(callName, this);
         }
 
-        class InternalMeasure : IDisposable
+        private class InternalMeasure : IDisposable
         {
             private string _callName;
             private AutoPlayer _master;

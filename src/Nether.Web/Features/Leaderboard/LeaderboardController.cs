@@ -26,7 +26,6 @@ namespace Nether.Web.Features.Leaderboard
         {
             _store = store;
             _analyticsIntegrationClient = analyticsIntegrationClient;
-
         }
 
         //TODO: Add versioning support
