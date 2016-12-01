@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,24 +13,46 @@ namespace LeaderboardLoadTest
 {
     public class AutoPlayer
     {
+        private static int s_counter;
         private readonly TextWriter _logger;
         private readonly string _password;
         private readonly string _username;
         private readonly Random _random = new Random();
-        private readonly string _playerInternalId = Guid.NewGuid().ToString();
+        private readonly string _playerInternalId;
+        private readonly Stopwatch _sw = new Stopwatch();
+        private readonly NetherClient _client;
+        private readonly Dictionary<string, List<long>> _callTimes = new Dictionary<string, List<long>>();
 
         public AutoPlayer(string username, string password, TextWriter logger)
         {
+            _playerInternalId = (s_counter++).ToString();
+            _playerInternalId = _playerInternalId.PadLeft(5, '0');
+
             _username = username;
             _password = password;
             _logger = logger;
+            _client = new NetherClient();
         }
 
-        public async Task PlayGameAsync(CancellationToken cancellationToken)
+        public List<string> CallNames => _callTimes.Keys.ToList();
+
+        public double GetAvgCallTime(string callName)
         {
-            int delayTime;
-            var client = new NetherClient();
-            var response = await client.LoginUserNamePasswordAsync(_username, _password);
+            return _callTimes[callName].Average();
+        }
+
+        public double GetAvgCallsPerSecond(string callName)
+        {
+            List<long> lst = _callTimes[callName];
+
+            return (double)lst.Count / TimeSpan.FromMilliseconds(lst.Sum()).TotalSeconds;
+        }
+
+        public string Id => _playerInternalId;
+
+        public async Task PlayGameAsync(int callsPerUser, CancellationToken cancellationToken)
+        {
+            var response = await _client.LoginUserNamePasswordAsync(_username, _password);
 
             if (!response.IsSuccess)
             {
@@ -38,37 +61,62 @@ namespace LeaderboardLoadTest
             }
 
             // simulate leaderboard activity
-            while (!cancellationToken.IsCancellationRequested)
+            int callsMade = 0;
+            while (!cancellationToken.IsCancellationRequested && callsMade++ < callsPerUser)
             {
-                int count = _random.Next(1, 5);
-                for (int i = 0; i < count; i++)
-                {
-                    int score = _random.Next(1500);
+                //_logger.WriteLine("{0}: call {1}/{2}...", _playerInternalId, callsMade, callsPerUser);
 
-                    // send game score (POST)
-                    _logger.WriteLine("Player({0}). Posting score {1}", _playerInternalId, score);
-                    var postScoreResponse = await client.PostScoreAsync(score);
-                    if (!postScoreResponse.IsSuccess)
-                    {
-                        _logger.WriteLine("Player({0}). Posting score failed: {1}", _playerInternalId, postScoreResponse.Message);
-                    }
-                    delayTime = _random.Next(1000, 10000);
-                    await Task.Delay(delayTime);
+                _sw.Restart();
+
+                using (Measure("PostScore"))
+                {
+                    var callResult = await _client.PostScoreAsync(_random.Next());
                 }
 
-                // ask for leaderboard scores (GET)
-                _logger.WriteLine("Player({0}). Getting scores", _playerInternalId);
-                var getScoresResponse = await client.GetScoresAsync();
-                if (getScoresResponse.IsSuccess)
+                using (Measure("GetScores"))
                 {
-                    _logger.WriteLine("Player({0}). Got scores {1}", _playerInternalId, getScoresResponse.Result);
+                    var callResult = await _client.GetScoresAsync();
                 }
-                else
+
+                List<long> times;
+                if (!_callTimes.TryGetValue("PostScore", out times))
                 {
-                    _logger.WriteLine("Player({0}). Failed to get scores: {1}", _playerInternalId, getScoresResponse.Message);
+                    times = new List<long>();
+                    _callTimes["PostScore"] = times;
                 }
-                delayTime = _random.Next(1000, 10000);
-                await Task.Delay(delayTime);
+                times.Add(_sw.ElapsedMilliseconds);
+            }
+        }
+
+        private IDisposable Measure(string callName)
+        {
+            return new InternalMeasure(callName, this);
+        }
+
+        private class InternalMeasure : IDisposable
+        {
+            private string _callName;
+            private AutoPlayer _master;
+
+            public InternalMeasure(string callName, AutoPlayer master)
+            {
+                _callName = callName;
+                _master = master;
+
+                _master._sw.Restart();
+            }
+
+            public void Dispose()
+            {
+                _master._sw.Stop();
+
+                List<long> times;
+                if (!_master._callTimes.TryGetValue(_callName, out times))
+                {
+                    times = new List<long>();
+                    _master._callTimes[_callName] = times;
+                }
+                times.Add(_master._sw.ElapsedMilliseconds);
             }
         }
     }

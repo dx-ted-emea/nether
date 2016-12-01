@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
 		build.sh = build.sh
+		src\.editorconfig = src\.editorconfig
 		README.md = README.md
 		RunCodeFormatter.ps1 = RunCodeFormatter.ps1
 		rundev.ps1 = rundev.ps1

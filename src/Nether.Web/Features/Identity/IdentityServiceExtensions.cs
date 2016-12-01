@@ -31,6 +31,7 @@ namespace Nether.Web.Features.Identity
                 .AddInMemoryStores()
                 .AddInMemoryClients(Clients.Get())
                 .AddInMemoryScopes(Scopes.Get())
+                .AddInMemoryUsers(Users.GenerateForLoadTest(10000))
                 .AddExtensionGrantValidator<FacebookUserAccessTokenExtensionGrantValidator>()
             ;
             services.AddTransient<IPasswordHasher, PasswordHasher>();

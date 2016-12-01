@@ -31,7 +31,6 @@ namespace Nether.Web.Features.Leaderboard
         //TODO: Add versioning support
         //TODO: Add authentication
 
-
         [HttpGet]
         public async Task<ActionResult> Get() //TODO: add swagger annotations for response shape
         {
@@ -41,7 +40,8 @@ namespace Nether.Web.Features.Leaderboard
             // Format response model
             var resultModel = new LeaderboardGetResponseModel
             {
-                LeaderboardEntries = scores.Cast<LeaderboardGetResponseModel.LeaderboardEntry>().ToList()
+                //LeaderboardEntries = scores.Cast<LeaderboardGetResponseModel.LeaderboardEntry>().ToList()
+                LeaderboardEntries = scores.Select(_ => (LeaderboardGetResponseModel.LeaderboardEntry)_).ToList()
             };
 
             // Return result
