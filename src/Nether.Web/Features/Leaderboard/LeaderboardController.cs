@@ -29,11 +29,13 @@ namespace Nether.Web.Features.Leaderboard
         private readonly ILeaderboardStore _store;
         private readonly IAnalyticsIntegrationClient _analyticsIntegrationClient;
         private readonly ILogger<LeaderboardController> _log;
+        private readonly ILeaderboardConfig _config;
 
-        public LeaderboardController(ILeaderboardStore store, IAnalyticsIntegrationClient analyticsIntegrationClient,
+        public LeaderboardController(ILeaderboardStore store, ILeaderboardConfig config, IAnalyticsIntegrationClient analyticsIntegrationClient,             
             ILogger<LeaderboardController> log)
         {
             _store = store;
+            _config = config;
             _analyticsIntegrationClient = analyticsIntegrationClient;
             _log = log;
         }
@@ -55,10 +57,9 @@ namespace Nether.Web.Features.Leaderboard
         {
             //TODO
             var gamerTag = User.GetGamerTag();
-
-            LeaderboardConfig config;
+            
             List<GameScore> scores;
-            Configuration.Configuration.LeaderboardConfiguration.TryGetValue(type, out config);
+            LeaderboardConfigItem config = _config.getConfigByType(type);            
             switch (type)
             {
                 case LeaderboardType.AroundMe:
