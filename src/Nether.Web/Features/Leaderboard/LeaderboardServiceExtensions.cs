@@ -67,7 +67,7 @@ namespace Nether.Web.Features.Leaderboard
                 // register using well-known type
                 var wellKnownType = configuration["Leaderboard:Store:wellknown"];
                 var scopedConfiguration = configuration.GetSection("Leaderboard:Store:properties");
-                Dictionary<LeaderboardType, LeaderboardConfigItem> leaderboards = GetLeaderboardsConfig(configuration);                
+                Dictionary<LeaderboardType, LeaderboardConfigItem> leaderboards = GetLeaderboardsConfig(configuration);
                 string connectionString;
                 switch (wellKnownType)
                 {
@@ -91,7 +91,7 @@ namespace Nether.Web.Features.Leaderboard
                         });
                         services.AddTransient<ILeaderboardConfig>(serviceProvider =>
                         {
-                             return new LeaderboardConfig(leaderboards);
+                            return new LeaderboardConfig(leaderboards);
                         });
                         break;
                     default:
@@ -106,7 +106,7 @@ namespace Nether.Web.Features.Leaderboard
         }
 
         private static Dictionary<LeaderboardType, LeaderboardConfigItem> GetLeaderboardsConfig(IConfiguration configuration)
-        {            
+        {
             Dictionary<LeaderboardType, LeaderboardConfigItem> config = new Dictionary<LeaderboardType, LeaderboardConfigItem>();
 
             if (configuration.Exists("Leaderboard:Leaderboards:Default:Enabled") &&
@@ -124,7 +124,7 @@ namespace Nether.Web.Features.Leaderboard
             {
                 var configurationSection = configuration.GetSection("Leaderboard:Leaderboards:Top");
                 config.Add(LeaderboardType.Top, new LeaderboardConfigItem
-                {                    
+                {
                     AroundMe = false,
                     Radius = 0,
                     Top = Int32.Parse(configurationSection["Top"])
@@ -143,6 +143,6 @@ namespace Nether.Web.Features.Leaderboard
             }
 
             return config;
-        }            
+        }
     }
 }

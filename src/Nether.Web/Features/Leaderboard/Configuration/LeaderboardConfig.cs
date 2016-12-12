@@ -8,8 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Nether.Web.Features.Leaderboard.Configuration
-{    
-
+{
     public class LeaderboardConfig : ILeaderboardConfig
     {
         private Dictionary<LeaderboardType, LeaderboardConfigItem> _leaderboards;
@@ -21,7 +20,7 @@ namespace Nether.Web.Features.Leaderboard.Configuration
         public LeaderboardConfig(Dictionary<LeaderboardType, LeaderboardConfigItem> leaderboards)
         {
             _leaderboards = leaderboards;
-        }        
+        }
 
         public LeaderboardConfigItem getConfigByType(LeaderboardType type)
         {
@@ -29,5 +28,5 @@ namespace Nether.Web.Features.Leaderboard.Configuration
             _leaderboards.TryGetValue(type, out config);
             return config;
         }
-    }        
+    }
 }
