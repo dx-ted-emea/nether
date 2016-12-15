@@ -32,6 +32,7 @@ namespace Nether.Web.UnitTests.Features.Leaderboard
                 services =>
                 {
                     services.Setup(s => s.GetService(typeof(ILeaderboardStore))).Returns(leaderboardStore.Object);
+                    services.Setup(s => s.GetService(typeof(ILeaderboardConfig))).Returns(Mock.Of<ILeaderboardConfig>);
                     services.Setup(s => s.GetService(typeof(IAnalyticsIntegrationClient))).Returns(Mock.Of<IAnalyticsIntegrationClient>());
                     services.Setup(s => s.GetService(typeof(ILogger<LeaderboardController>))).Returns(Mock.Of<ILogger<LeaderboardController>>());
                 });
@@ -55,6 +56,7 @@ namespace Nether.Web.UnitTests.Features.Leaderboard
                 services =>
                 {
                     services.Setup(s => s.GetService(typeof(ILeaderboardStore))).Returns(leaderboardStore.Object);
+                    services.Setup(s => s.GetService(typeof(ILeaderboardConfig))).Returns(Mock.Of<ILeaderboardConfig>);
                     services.Setup(s => s.GetService(typeof(IAnalyticsIntegrationClient))).Returns(Mock.Of<IAnalyticsIntegrationClient>());
                     services.Setup(s => s.GetService(typeof(ILogger<LeaderboardController>))).Returns(Mock.Of<ILogger<LeaderboardController>>());
                 }
@@ -82,6 +84,7 @@ namespace Nether.Web.UnitTests.Features.Leaderboard
                 services =>
                 {
                     services.Setup(s => s.GetService(typeof(ILeaderboardStore))).Returns(leaderboardStore.Object);
+                    services.Setup(s => s.GetService(typeof(ILeaderboardConfig))).Returns(Mock.Of<ILeaderboardConfig>);
                     services.Setup(s => s.GetService(typeof(IAnalyticsIntegrationClient))).Returns(Mock.Of<IAnalyticsIntegrationClient>());
                     services.Setup(s => s.GetService(typeof(ILogger<LeaderboardController>))).Returns(Mock.Of<ILogger<LeaderboardController>>());
                 },
