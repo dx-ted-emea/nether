@@ -12,7 +12,7 @@ namespace Nether.Analytics.EventProcessor
         void Append(string eventType, params string[] values);
     }
 
-    class CsvBlobAppender : IBlobAppender
+    public class CsvBlobAppender : IBlobAppender
     {
         private static string currentBlobName = "Kristofer";
 
@@ -28,9 +28,19 @@ namespace Nether.Analytics.EventProcessor
             //blob.AppendText();
         }
 
-        private string FormatCsvRow(string eventType, params string[] values)
+        public string FormatCsvRow(string eventType, params string[] values)
         {
-            //var row = new 
+            const char delimiter = '|';
+
+            var row = new StringBuilder();
+            row.Append(eventType);
+
+            foreach (var value in values)
+            {
+                row.Append(delimiter);
+                row.Append(value);
+            }
+
             throw new NotImplementedException();
         }
     }
