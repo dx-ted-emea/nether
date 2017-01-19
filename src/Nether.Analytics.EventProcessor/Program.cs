@@ -2,6 +2,7 @@
 using Microsoft.Azure.WebJobs.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure.Storage;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,4 +59,29 @@ namespace Nether.Analytics.EventProcessor
 
         }
     }
+
+    public class NetherInputEventHubProcessor
+    {
+        private const string InputEventHubName = "analytics";
+
+        public static void HandleOne([EventHubTrigger(InputEventHubName)] string data)
+        {
+            var gameEvents = JArray.Parse(data);
+
+            var x = gameEvents[0];
+            foreach (var gameEvent in gameEvents)
+            {
+                
+            }
+
+
+        }
+
+        public int TestOfTest()
+        {
+            return 1;
+        }
+    }
+
+
 }
