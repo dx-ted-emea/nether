@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Azure.WebJobs.ServiceBus;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Nether.Analytics.EventProcessor
 {
     public class GameEventProcessor
     {
+        private const string InputEventHubName = "analytics";
+
+        public void HandleOne([EventHubTrigger(InputEventHubName)] string data)
+        {
+            dynamic json = JsonConvert.DeserializeObject(data);
+        }
+
         //public void HandleOne([EventHubTrigger("")] string data)
+
         //{
         //    dynamic json = JObject.Parse(data);
 
