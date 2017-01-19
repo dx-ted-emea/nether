@@ -97,6 +97,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvBlobAppender.cs" />
+    <Compile Include="GameEventProcessor.cs" />
     <Compile Include="Models\CountEvent.cs" />
     <Compile Include="Models\GameEvent.cs" />
     <Compile Include="Models\GameHeartbeatEvent.cs" />

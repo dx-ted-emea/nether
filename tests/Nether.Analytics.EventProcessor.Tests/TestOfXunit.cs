@@ -9,13 +9,13 @@ namespace Nether.Analytics.EventProcessor.Logic.Tests
 {
     public class TestOfXunit
     {
-        [Fact]
-        public void Test()
-        {
-            var x = new NetherInputEventHubProcessor();
+        //[Fact]
+        //public void Test()
+        //{
+        //    var x = new NetherInputEventHubProcessor();
 
-            Assert.Equal(1, x.TestOfTest());
+        //    Assert.Equal(1, x.TestOfTest());
             
-        }
+        //}
     }
 }

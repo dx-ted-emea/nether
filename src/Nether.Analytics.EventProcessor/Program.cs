@@ -34,54 +34,60 @@ namespace Nether.Analytics.EventProcessor
             host.RunAndBlock();
         }
 
-        public static void HandleOne([EventHubTrigger(InputEventHubName)] string data)
-        {
-            Console.WriteLine(data);
-        }
+        //public static void HandleOne([EventHubTrigger(InputEventHubName)] string data)
+        //{
+        //    Console.WriteLine(data);
+        //}
 
         //static void SendOne([EventHub("MyHub")] out EventData output);
 
     }
 
-    public class BlobWriter
-    {
-        private const string BlobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=netherdashboard;AccountKey=oT30a8/BSwTFg/4GGWLPCeGIHBfgDcMf9zEThKHlY4hjUNy3sYUTSWXWa3yJMoX2lvTnWSIrjtwU9kg9YaL0Qw==";
-        private const string ContainerName = "rawdata";
-        public void WriteToCsvBlob(string eventType, DateTime date, string blobName, string[] data)
-        {
 
-            var storageAccount = CloudStorageAccount.Parse(BlobStorageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var container = blobClient.GetContainerReference(ContainerName);
-            container.CreateIfNotExists();
-            var blob = container.GetAppendBlobReference("test.csv");
-            blob.FetchAttributes();
 
-        }
-    }
 
-    public class NetherInputEventHubProcessor
-    {
-        private const string InputEventHubName = "analytics";
 
-        public static void HandleOne([EventHubTrigger(InputEventHubName)] string data)
-        {
-            var gameEvents = JArray.Parse(data);
 
-            var x = gameEvents[0];
-            foreach (var gameEvent in gameEvents)
-            {
+    //public class BlobWriter
+    //{
+    //    private const string BlobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=netherdashboard;AccountKey=oT30a8/BSwTFg/4GGWLPCeGIHBfgDcMf9zEThKHlY4hjUNy3sYUTSWXWa3yJMoX2lvTnWSIrjtwU9kg9YaL0Qw==";
+    //    private const string ContainerName = "rawdata";
+    //    public void WriteToCsvBlob(string eventType, DateTime date, string blobName, string[] data)
+    //    {
+
+    //        var storageAccount = CloudStorageAccount.Parse(BlobStorageConnectionString);
+    //        var blobClient = storageAccount.CreateCloudBlobClient();
+    //        var container = blobClient.GetContainerReference(ContainerName);
+    //        container.CreateIfNotExists();
+    //        var blob = container.GetAppendBlobReference("test.csv");
+    //        blob.FetchAttributes();
+
+    //    }
+    //}
+
+    //public class NetherInputEventHubProcessor
+    //{
+    //    private const string InputEventHubName = "analytics";
+
+    //    public static void HandleOne([EventHubTrigger(InputEventHubName)] string data)
+    //    {
+    //        var gameEvents = JArray.Parse(data);
+
+    //        var x = gameEvents[0];
+    //        foreach (var gameEvent in gameEvents)
+    //        {
                 
-            }
+    //        }
 
 
-        }
+    //    }
 
-        public int TestOfTest()
-        {
-            return 1;
-        }
-    }
+    //    public int TestOfTest()
+    //    {
+    //        return 1;
+    //    }
+    //}
 
+    //public class
 
 }
