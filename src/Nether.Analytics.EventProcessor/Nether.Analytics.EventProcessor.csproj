@@ -97,9 +97,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CountEvent.cs" />
     <Compile Include="Models\GameEvent.cs" />
+    <Compile Include="Models\GameHeartbeatEvent.cs" />
     <Compile Include="Models\StartEvent.cs" />
     <Compile Include="Models\StartGameEvent.cs" />
+    <Compile Include="Models\StopEvent.cs" />
+    <Compile Include="Models\StopGameEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
