@@ -1,6 +1,6 @@
 namespace Nether.Analytics.EventProcessor.Models
 {
-    public class StartGameEvent : GameEvent
+    public class StopGameEvent : GameEvent
     {
         public override string Event => "start";
         public override string Version => "1.0.0";
