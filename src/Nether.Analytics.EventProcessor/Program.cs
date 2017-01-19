@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
+using Microsoft.WindowsAzure.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,5 +39,23 @@ namespace Nether.Analytics.EventProcessor
         }
 
         //static void SendOne([EventHub("MyHub")] out EventData output);
+
+    }
+
+    public class BlobWriter
+    {
+        private const string BlobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=netherdashboard;AccountKey=oT30a8/BSwTFg/4GGWLPCeGIHBfgDcMf9zEThKHlY4hjUNy3sYUTSWXWa3yJMoX2lvTnWSIrjtwU9kg9YaL0Qw==";
+        private const string ContainerName = "rawdata";
+        public void WriteToCsvBlob(string eventType, DateTime date, string blobName, string[] data)
+        {
+
+            var storageAccount = CloudStorageAccount.Parse(BlobStorageConnectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference(ContainerName);
+            container.CreateIfNotExists();
+            var blob = container.GetAppendBlobReference("test.csv");
+            blob.FetchAttributes();
+
+        }
     }
 }
