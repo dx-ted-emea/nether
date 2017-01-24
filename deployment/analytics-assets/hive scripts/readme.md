@@ -6,3 +6,5 @@
 4. `monthlydurations.hql`: average durations per month
 5. `yearlydurations.hql`: average durations per year
 6. `aggregatedcounters.hql`:
+
+bla bla bla
