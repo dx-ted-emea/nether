@@ -185,10 +185,13 @@ namespace Nether.Data.Sql.PlayerManagement
 
         public async Task SavePlayerAsync(Player player)
         {
-            // add only of the player does not exist
-            PlayerEntity entity = player.UserId == null ? null : await _context.Players.FindAsync(player.Gamertag);
+            // add only if the player does not exist
+            PlayerEntity entity = player.UserId == null
+                ? null
+                : await _context.Players.SingleOrDefaultAsync(p => p.Gamertag == player.Gamertag);
             if (entity == null)
             {
+                _logger.LogDebug("Add player: UserId '{0}', Gamertag '{1}'", player.UserId, player.Gamertag);
                 await _context.Players.AddAsync(new PlayerEntity
                 {
                     UserId = player.UserId,
@@ -200,6 +203,7 @@ namespace Nether.Data.Sql.PlayerManagement
             }
             else
             {
+                _logger.LogDebug("Update player: UserId '{0}', Gamertag '{1}'", player.UserId, player.Gamertag);
                 entity.Gamertag = player.Gamertag;
                 entity.Country = player.Country;
                 entity.CustomTag = player.CustomTag;
@@ -218,6 +222,34 @@ namespace Nether.Data.Sql.PlayerManagement
         public Task UploadPlayerImageAsync(string gamertag, byte[] image)
         {
             throw new NotSupportedException();
+        }
+
+        public async Task SavePlayerExtendedAsync(PlayerExtended player)
+        {
+            // add only of the playerextended does not exist
+            PlayerExtendedEntity entity = player.UserId == null ? null : await _context.PlayersExtended.FindAsync(player.Gamertag);
+            if (entity == null)
+            {
+                await _context.PlayersExtended.AddAsync(new PlayerExtendedEntity
+                {
+                    UserId = player.UserId,
+                    Gamertag = player.Gamertag,
+                    ExtendedInformation = player.ExtendedInformation
+                });
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                entity.Gamertag = player.Gamertag;
+                entity.ExtendedInformation = player.ExtendedInformation;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<PlayerExtended> GetPlayerDetailsExtendedAsync(string gamertag)
+        {
+            PlayerExtendedEntity player = await _context.PlayersExtended.SingleOrDefaultAsync(p => p.Gamertag.Equals(gamertag));
+            return player?.ToPlayerExtended();
         }
     }
 }
