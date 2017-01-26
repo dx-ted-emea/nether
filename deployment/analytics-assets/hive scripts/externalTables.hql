@@ -1,10 +1,12 @@
-DROP TABLE IF EXISTS DEFAULT.starts;
-DROP TABLE IF EXISTS DEFAULT.stops;
-DROP TABLE IF EXISTS DEFAULT.counts;
-DROP TABLE IF EXISTS DEFAULT.gamestarts;
+DROP TABLE IF EXISTS starts;
+DROP TABLE IF EXISTS stops;
+DROP TABLE IF EXISTS counts;
+DROP TABLE IF EXISTS gamestart;
+DROP TABLE IF EXISTS gamestop;
+DROP TABLE IF EXISTS gameheartbeat;
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.starts(event string COMMENT 'event type',
+CREATE EXTERNAL TABLE IF NOT EXISTS starts(event string COMMENT 'event type',
        version string,
        clientutc timestamp,
        eventCorrelationId string,
@@ -20,7 +22,7 @@ STORED AS TEXTFILE
 LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/startevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.stops(event string COMMENT 'event type',
+CREATE EXTERNAL TABLE IF NOT EXISTS stops(event string COMMENT 'event type',
        version string,
        clientutc timestamp,
        eventCorrelationId string,
@@ -35,7 +37,7 @@ STORED AS TEXTFILE
 LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/stopevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.counts(event string COMMENT 'event type',
+CREATE EXTERNAL TABLE IF NOT EXISTS counts(event string COMMENT 'event type',
        version string,
        clientutc timestamp,
        displayName string,
@@ -51,7 +53,7 @@ STORED AS TEXTFILE
 LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/countevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.storecounts(event string COMMENT 'event type',
+CREATE EXTERNAL TABLE IF NOT EXISTS storecounts(event string COMMENT 'event type',
        version string,
        clientutc timestamp,
        itemBought string,
@@ -67,44 +69,47 @@ STORED AS TEXTFILE
 LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/storecountevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.gamestarts(event string COMMENT 'event type',
-       version string,
-       clientutc timestamp,
-       gameSessionId string,
-       gamerTag string,
-       tags ARRAY<STRING>)
-COMMENT 'game start events'
+CREATE EXTERNAL TABLE IF NOT EXISTS gamestart(
+    event STRING,
+    version STRING,
+    clientUtc TIMESTAMP,
+    gameSessionId STRING,
+    gamerTag STRING
+)
+COMMENT 'Game session start events'
 ROW FORMAT DELIMITED
-        FIELDS TERMINATED BY '|'
-        COLLECTION ITEMS TERMINATED BY '\073'
-        LINES TERMINATED BY '\n'
+    FIELDS TERMINATED BY '|'
+    COLLECTION ITEMS TERMINATED BY '\073'
+    LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/game-start/';
+LOCATION 'wasbs://rawdata@netstuff.blob.core.windows.net/gamestartevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.gamestops(event string COMMENT 'event type',
-       version string,
-       clientutc timestamp,
-       gameSessionId string,
-       tags ARRAY<STRING>)
-COMMENT 'game stop events'
+CREATE EXTERNAL TABLE IF NOT EXISTS gamestop(
+    event STRING,
+    version STRING,
+    clientUtc TIMESTAMP,
+    gameSessionId STRING
+)
+COMMENT 'Game session stop events'
 ROW FORMAT DELIMITED
-        FIELDS TERMINATED BY '|'
-        COLLECTION ITEMS TERMINATED BY '\073'
-        LINES TERMINATED BY '\n'
+    FIELDS TERMINATED BY '|'
+    COLLECTION ITEMS TERMINATED BY '\073'
+    LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/game-stop/';
+LOCATION 'wasbs://rawdata@netstuff.blob.core.windows.net/gamestopevents/';
 
 
-CREATE EXTERNAL TABLE IF NOT EXISTS default.gameheartbeats(event string COMMENT 'event type',
-       version string,
-       clientutc timestamp,
-       gameSessionId string,
-       tags ARRAY<STRING>)
-COMMENT 'game start events'
+CREATE EXTERNAL TABLE IF NOT EXISTS gameheartbeat(
+    event STRING,
+    version STRING,
+    clientUtc TIMESTAMP,
+    gameSessionId STRING
+)
+COMMENT 'Game session heartbeat events'
 ROW FORMAT DELIMITED
-        FIELDS TERMINATED BY '|'
-        COLLECTION ITEMS TERMINATED BY '\073'
-        LINES TERMINATED BY '\n'
+    FIELDS TERMINATED BY '|'
+    COLLECTION ITEMS TERMINATED BY '\073'
+    LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION 'wasbs://gameevents@netstuff.blob.core.windows.net/gameevents/game-heartbeat/';
+LOCATION 'wasbs://rawdata@netstuff.blob.core.windows.net/gameheartbeatevents/';
