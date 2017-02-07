@@ -29,7 +29,8 @@
     "Nether.Data.Sql": "1.0.0-*",
     "Microsoft.AspNetCore.Cryptography.KeyDerivation": "1.1.0",
     "Microsoft.EntityFrameworkCore.InMemory": "1.1.0",
-    "Microsoft.Extensions.Logging.AzureAppServices":  "1.0.0"
+    "Microsoft.Extensions.Logging.AzureAppServices": "1.0.0",
+    "WindowsAzure.Storage": "8.0.1"
   },
 
   "tools": {
