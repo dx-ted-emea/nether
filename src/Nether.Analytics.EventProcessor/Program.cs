@@ -30,7 +30,10 @@ namespace Nether.Analytics.EventProcessor
 
             // Configure WebJob
 
-            var jobHostConfig = new JobHostConfiguration(webJobDashboardAndStorageConnectionString);
+            var jobHostConfig = new JobHostConfiguration(webJobDashboardAndStorageConnectionString)
+            {
+                NameResolver = new NameResolver()
+            };
             var eventHubConfig = new EventHubConfiguration();
             eventHubConfig.AddReceiver(ingestEventHubName, ingestEventHubConnectionString);
 

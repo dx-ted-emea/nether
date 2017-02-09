@@ -73,7 +73,7 @@ namespace Nether.Analytics.EventProcessor
         /// that gets processed by the Event Processor.
         /// </summary>
         /// <param name="data">The raw Game Event Data to be processed</param>
-        public void HandleOne([EventHubTrigger("ingest")] string data)
+        public void HandleOne([EventHubTrigger("%NETHER_INGEST_EVENTHUB_NAME%")] string data)
         {
             //TODO: Figure out how to configure above EventHubName now named ingest
 

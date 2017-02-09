@@ -88,6 +88,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NameResolver.cs" />
     <Compile Include="Output\Blob\BlobOutputFolderStructure.cs" />
     <Compile Include="Output\Blob\BlobOutputManager.cs" />
     <Compile Include="Output\EventHub\EventHubOutputManager.cs" />
