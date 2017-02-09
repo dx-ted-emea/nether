@@ -10,29 +10,49 @@ namespace Nether.Analytics.EventProcessor
     // To learn more about Microsoft Azure WebJobs SDK, please see https://go.microsoft.com/fwlink/?LinkID=320976
     internal static class Program
     {
+        private static string _webJobDashboardAndStorageConnectionString;
+        private static string _ingestEventHubConnectionString;
+        private static string _ingestEventHubName;
+
         // Please set the following connection strings in app.config for this WebJob to run:
         // AzureWebJobsDashboard and AzureWebJobsStorage
         public static void Main()
         {
-            // Read configuration
+            Greet();
+
+            var jobHostConfig = Configure();
+
+            // Run and block
+            var host = new JobHost(jobHostConfig);
+            host.RunAndBlock();
+        }
+
+        private static JobHostConfiguration Configure()
+        {
             //TODO: Make all configuration work in the same way across Nether
             Console.WriteLine("Configuring WebJob (from Environment Variables");
-            var webJobDashboardAndStorageConnectionString =
+
+            _webJobDashboardAndStorageConnectionString =
                 Environment.GetEnvironmentVariable("NETHER_WEBJOB_DASHBOARD_AND_STORAGE_CONNECTIONSTRING");
-            Console.WriteLine($"webJobDashboardAndStorageConnectionString: {webJobDashboardAndStorageConnectionString}");
-            var ingestEventHubConnectionString =
+            Console.WriteLine($"webJobDashboardAndStorageConnectionString:");
+            Console.WriteLine($"  {_webJobDashboardAndStorageConnectionString}");
+
+            _ingestEventHubConnectionString =
                 Environment.GetEnvironmentVariable("NETHER_INGEST_EVENTHUB_CONNECTIONSTRING");
-            Console.WriteLine($"ingestEventHubConnectionString: {ingestEventHubConnectionString}");
-            var ingestEventHubName =
+            Console.WriteLine($"ingestEventHubConnectionString:");
+            Console.WriteLine($"  {_ingestEventHubConnectionString}");
+
+            _ingestEventHubName =
                 Environment.GetEnvironmentVariable("NETHER_INGEST_EVENTHUB_NAME");
-            Console.WriteLine($"ingestEventHubName: {ingestEventHubName}");
+            Console.WriteLine($"ingestEventHubName:");
+            Console.WriteLine($"  {_ingestEventHubName}");
+
             Console.WriteLine();
 
-            // Configure WebJob
-
-            var jobHostConfig = new JobHostConfiguration(webJobDashboardAndStorageConnectionString);
+            // Setup Web Job Config
+            var jobHostConfig = new JobHostConfiguration(_webJobDashboardAndStorageConnectionString);
             var eventHubConfig = new EventHubConfiguration();
-            eventHubConfig.AddReceiver(ingestEventHubName, ingestEventHubConnectionString);
+            eventHubConfig.AddReceiver(_ingestEventHubName, _ingestEventHubConnectionString);
 
             jobHostConfig.UseEventHub(eventHubConfig);
 
@@ -41,9 +61,20 @@ namespace Nether.Analytics.EventProcessor
                 jobHostConfig.UseDevelopmentSettings();
             }
 
-            // Run and block
-            var host = new JobHost(jobHostConfig);
-            host.RunAndBlock();
+            return jobHostConfig;
+
+        }
+
+        private static void Greet()
+        {
+            Console.WriteLine();
+            Console.WriteLine(@" _   _      _   _               ");
+            Console.WriteLine(@"| \ | | ___| |_| |__   ___ _ __ ");
+            Console.WriteLine(@"|  \| |/ _ \ __| '_ \ / _ \ '__|");
+            Console.WriteLine(@"| |\  |  __/ |_| | | |  __/ |   ");
+            Console.WriteLine(@"|_| \_|\___|\__|_| |_|\___|_|   ");
+            Console.WriteLine(@"- Analytics Event Processor -");
+            Console.WriteLine();
         }
     }
 }

@@ -40,6 +40,7 @@ Nether is a project composed of reusable set of building blocks, projects, servi
 
 ## Reporting issues and feedback
 
+
 If you encounter any bugs with the tool please file an issue in the Issues
 section of our GitHub repo.
 
