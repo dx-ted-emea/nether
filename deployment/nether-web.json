@@ -22,6 +22,12 @@
             "metadata": {
                 "description": "Absolute URI containing the package to deploy"
             }
+        },
+		"bacpacUri":{
+            "type":"string",      
+            "metadata": {
+                "description": "Absolute URI containing database schema bacpac file"
+            }
         }
     },
     "variables": {
@@ -60,7 +66,25 @@
                     "properties":{
                         "edition": "Basic",
                         "requestedServiceObjectiveName": "Basic"
-                    }
+                    },
+                    "resources": [
+                        {
+                            "name": "Import",
+                            "type": "extensions",
+                            "apiVersion": "2014-04-01",
+                            "dependsOn": [
+                                "[resourceId('Microsoft.Sql/servers/databases', variables('sqlServerName'), variables('databaseName'))]"
+                            ],
+                            "properties": {
+                                "operationMode": "Import",
+                                "storageKey": "?",
+                                "storageKeyType": "SharedAccessKey",
+                                "administratorLogin": "[parameters('sqlAdministratorLogin')]",
+                                "administratorLoginPassword": "[parameters('sqlAdministratorPassword')]",
+                                "storageUri": "[parameters('bacpacUri')]"
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "AllowAllWindowsAzureIps",

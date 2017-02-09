@@ -35,8 +35,11 @@ SqlAdministratorPassword | **Required.** The password to use for the adminstrato
 
 ## Deploying Database Schema
 
-The deployment script currently creates an empty database but doesn't yet deploy the schema.
+The deployment script currently creates a single database with a schema based on the `Nether.Data.Sql.Schema` project. 
+An exisitng schema.bacpac file is located under the [deployment](..\deployment) folder in this repository, and is being used by the deployment script.
 
-Visual Studio solution contains a project called `Nether.Data.Sql.Schema` which produces a `.dacpac` file to deploy the schema on top of the created database. You can use a variety of tools like `Visual Studio 2015`, `SQL Server Management Studio` or [command-line](https://msdn.microsoft.com/en-us/library/hh550080(v=vs.103).aspx) to deploy it. Note that by default SQL Server firewall doesn't allow incoming connection from non-Azure services, therefore you may want to temporarily open a firewall port for it. Another option is to use Visual Studio Team Services dacpac deployment task which does it for you.
-
-Once database schema is deployed Nether deployment is complete.
+**Create your own bacpac:**
+1. Create a SQL Database - [learn how to create a SQL Database](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-get-started). 
+To test locally, you may use an on prem installation of SQL Server database
+2. Deploy a schema - You can deploy the current nether schema, `Nether.Data.Sql.Schema`, using a variety of tools like `Visual Studio 2015`, `SQL Server Management Studio` or [command-line](https://msdn.microsoft.com/en-us/library/hh550080(v=vs.103).aspx) to deploy it. Note that by default SQL Server firewall doesn't allow incoming connection from non-Azure services, therefore you may want to temporarily open a firewall port for it.
+3. [Export the scema to bacpac file](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cloud-migrate-compatible-export-bacpac-ssms)

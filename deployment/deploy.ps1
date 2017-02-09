@@ -95,6 +95,14 @@ $blob = Set-AzureStorageBlobContent `
         -Blob "Nether.Web.Zip" `
         -Force
 
+$pacpacFile = "$netherRoot/deployment/schema.bacpac"
+Write-Host "Uploading schema.bacpac to storage..."
+$blobSchema = Set-AzureStorageBlobContent `
+        -Context $storageAccount.Context `
+        -Container $containerName `
+        -File $pacpacFile `
+        -Blob "schema.bacpak" `
+        -Force
 
 
 #deploy from template
@@ -104,6 +112,7 @@ Write-Host
 $templateParameters = @{
     sqlAdministratorPassword = $SqlAdministratorPassword
     webZipUri = $blob.ICloudBlob.Uri.AbsoluteUri
+    bacpacUri = $blobSchema.ICloudBlob.Uri.AbsoluteUri
     # webZipUri = "https://netherassets.blob.core.windows.net/packages/package261.zip"
     # webZipUri = "https://netherbits.blob.core.windows.net/deployment/Nether.Web.zip"
 }
