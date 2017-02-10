@@ -5,6 +5,7 @@ using System;
 using Microsoft.Azure.WebJobs.ServiceBus;
 using Nether.Analytics.EventProcessor.Output.Blob;
 using Nether.Analytics.EventProcessor.Output.EventHub;
+using System.Configuration;
 
 namespace Nether.Analytics.EventProcessor
 {
@@ -23,16 +24,16 @@ namespace Nether.Analytics.EventProcessor
 
             Console.WriteLine("Configuring GameEventReceiver (from Environment Variables");
 
-            var outputStorageAccountConnectionString = Environment.GetEnvironmentVariable("NETHER_ANALYTICS_STORAGE_CONNECTIONSTRING");
+            var outputStorageAccountConnectionString = ConfigResolver.Resolve("NETHER_ANALYTICS_STORAGE_CONNECTIONSTRING");
             Console.WriteLine($"outputStorageAccountConnectionString: {outputStorageAccountConnectionString}");
 
-            var outputContainer = Environment.GetEnvironmentVariable("NETHER_ANALYTICS_STORAGE_CONTAINER");
+            var outputContainer = ConfigResolver.Resolve("NETHER_ANALYTICS_STORAGE_CONTAINER");
             Console.WriteLine($"outputContainer: {outputContainer}");
 
-            var outputEventHubConnectionString = Environment.GetEnvironmentVariable("NETHER_INTERMEDIATE_EVENTHUB_CONNECTIONSTRING");
+            var outputEventHubConnectionString = ConfigResolver.Resolve("NETHER_INTERMEDIATE_EVENTHUB_CONNECTIONSTRING");
             Console.WriteLine($"outputEventHubConnectionString: {outputEventHubConnectionString}");
 
-            var outputEventHubName = Environment.GetEnvironmentVariable("NETHER_INTERMEDIATE_EVENTHUB_NAME");
+            var outputEventHubName = ConfigResolver.Resolve("NETHER_INTERMEDIATE_EVENTHUB_NAME");
             Console.WriteLine($"outputEventHubName: {outputEventHubName}");
 
             var maxBlobSize = 100 * 1024 * 1024;
@@ -70,8 +71,7 @@ namespace Nether.Analytics.EventProcessor
             s_router.RegEventTypeAction("generic", "1.0.0", handler.HandleGenericEvent);
         }
 
-
-        //public void HandleOne([EventHubTrigger("ingest")] string data)
+        //public void HandleOne([EventHubTrigger("%NETHER_INGEST_EVENTHUB_NAME%")] string data)
         //{
         //    //TODO: Figure out how to configure above EventHubName now named ingest
 
@@ -79,7 +79,7 @@ namespace Nether.Analytics.EventProcessor
         //    _router.HandleGameEvent(data);
         //}
 
-        public static void HandleBatch([EventHubTrigger("ingest")] string[] events)
+        public static void HandleBatch([EventHubTrigger("%NETHER_INGEST_EVENTHUB_NAME%")] string[] events)
         {
             if (events.Length > 1)
                 Console.WriteLine($"....Received batch of {events.Length} events");
