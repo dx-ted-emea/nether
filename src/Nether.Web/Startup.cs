@@ -22,6 +22,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using IdentityServer4;
 using System.Linq;
 using IdentityServer4.Models;
+using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Nether.Web
 {
@@ -159,6 +161,11 @@ namespace Nether.Web
 
             app.EnsureInitialAdminUser(Configuration, logger);
 
+            var wellKnownType = Configuration["Identity:Store:wellknown"];
+            if (wellKnownType == "sql")
+            {
+                InitializeDatabase(app);
+            }
 
             // Set up separate web pipelines for identity, MVC UI, and API
             // as they each have different auth requirements!
@@ -294,6 +301,15 @@ namespace Nether.Web
 
                 uiapp.UseMvc(); // TODO filter which routes this matches (i.e. only non-API routes)
             });
+        }
+
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+            }
         }
     }
 }

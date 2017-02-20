@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Nether.Integration.Identity;
 using Microsoft.AspNetCore.Builder;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 
 namespace Nether.Web.Features.Identity
 {
@@ -79,8 +80,8 @@ namespace Nether.Web.Features.Identity
             IHostingEnvironment hostingEnvironment)
         {
             ConfigureIdentityPlayerMangementClient(services, configuration, logger);
-            ConfigureIdentityServer(services, configuration, logger, hostingEnvironment);
-            ConfigureIdentityStore(services, configuration, logger);
+            var identityServer = ConfigureIdentityServer(services, configuration, logger, hostingEnvironment);
+            ConfigureIdentityStore(services, identityServer, configuration, logger);
 
             return services;
         }
@@ -131,7 +132,7 @@ namespace Nether.Web.Features.Identity
             }
         }
 
-        private static void ConfigureIdentityServer(
+        private static IIdentityServerBuilder ConfigureIdentityServer(
             IServiceCollection services,
             IConfiguration configuration,
             ILogger logger,
@@ -168,9 +169,15 @@ namespace Nether.Web.Features.Identity
             services.AddTransient<IProfileService, StoreBackedProfileService>();
             services.AddTransient<IResourceOwnerPasswordValidator, StoreBackedResourceOwnerPasswordValidator>();
             services.AddTransient<UserClaimsProvider>();
+
+            return identityServerBuilder;
         }
 
-        private static void ConfigureIdentityStore(IServiceCollection services, IConfiguration configuration, ILogger logger)
+        private static void ConfigureIdentityStore(
+            IServiceCollection services,
+            IIdentityServerBuilder identityServices,
+            IConfiguration configuration,
+            ILogger logger)
         {
             if (configuration.Exists("Identity:Store:wellKnown"))
             {
@@ -191,6 +198,14 @@ namespace Nether.Web.Features.Identity
                         // Add IdentityContextOptions to configure for SQL Server
                         services.AddSingleton(new SqlIdentityContextOptions { ConnectionString = connectionString });
                         services.AddTransient<IdentityContextBase, SqlIdentityContext>();
+
+                        var migrationsAssembly = typeof(EntityFrameworkUserStore).GetTypeInfo().Assembly.GetName().Name;
+                        identityServices.AddOperationalStore(builder =>
+                         {
+                             builder.UseSqlServer(connectionString, options =>
+                                     options.MigrationsAssembly(migrationsAssembly)
+                                 );
+                         });
                         break;
                     default:
                         throw new Exception($"Unhandled 'wellKnown' type for Identity:Store: '{wellKnownType}'");
