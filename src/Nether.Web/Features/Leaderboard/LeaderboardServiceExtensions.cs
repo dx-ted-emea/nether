@@ -12,6 +12,8 @@ using Nether.Integration.Analytics;
 using Nether.Integration.Default.Analytics;
 using Nether.Web.Features.Leaderboard.Configuration;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 
 namespace Nether.Web.Features.Leaderboard
 {
@@ -99,7 +101,7 @@ namespace Nether.Web.Features.Leaderboard
                 }
                 services.AddTransient<ILeaderboardConfiguration>(serviceProvider =>
                 {
-                    return new LeaderboardConfiguration(GetLeaderboardConfiguration(configuration.GetSection("Leaderboard:Leaderboards").GetChildren()));
+                    return new LeaderboardConfiguration(GetLeaderboardConfiguration(configuration.GetSection("Leaderboard:Leaderboards")));
                 });
             }
             else
@@ -109,13 +111,13 @@ namespace Nether.Web.Features.Leaderboard
             }
         }
 
-        private static Dictionary<string, LeaderboardConfig> GetLeaderboardConfiguration(IEnumerable<IConfigurationSection> enumerable)
+        private static Dictionary<string, LeaderboardConfig> GetLeaderboardConfiguration(IConfigurationSection configuration)
         {
             Dictionary<string, LeaderboardConfig> leaderboards = new Dictionary<string, LeaderboardConfig>();
             // go over all leaderboards under "Leaderboard:Leaderboards"
-            foreach (var config in enumerable)
+            foreach (var config in configuration.GetChildren())
             {
-                string name = config["Name"];
+                string name = config.Key;
                 bool includeCurrentPlayer = bool.Parse(config["IncludeCurrentPlayer"] ?? "false");
                 LeaderboardType type = (LeaderboardType)Enum.Parse(typeof(LeaderboardType), config["Type"]);
                 LeaderboardConfig leaderboardConfig = new LeaderboardConfig
@@ -157,6 +159,20 @@ namespace Nether.Web.Features.Leaderboard
             }
 
             return leaderboards;
+        }
+        // TODO - look at abstracting this behind a "UseLeaderboard" method or similar
+        public static void InitializeLeaderboardStore(this IApplicationBuilder app, IConfiguration configuration, ILogger logger)
+        {
+            var wellKnownType = configuration["Leaderboard:Store:wellknown"];
+            if (wellKnownType == "sql")
+            {
+                logger.LogInformation("Run Migrations for SqlLeaderboardContext");
+                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                {
+                    var context = (SqlLeaderboardContext)serviceScope.ServiceProvider.GetRequiredService<LeaderboardContextBase>();
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }

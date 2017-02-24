@@ -83,5 +83,5 @@ To run, set the `ASPNETCORE_ENVIRONMENT` environment variable to `Development` a
 ```
 
 # 3rd party packages
-[MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/2.3.0-rc1)
+[MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/2.3.0-rc1)  
 [IdentityServer4](http://identityserver4.readthedocs.io/en/release/)
