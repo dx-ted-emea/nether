@@ -7,6 +7,13 @@ using Nether.Analytics.EventProcessor.Output.Blob;
 using Nether.Analytics.EventProcessor.Output.EventHub;
 using System.Configuration;
 using Microsoft.ServiceBus.Messaging;
+using Microsoft.Azure.WebJobs;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Diagnostics;
+using Microsoft.WindowsAzure.Storage;
+using System.Threading;
+using Nether.Analytics.EventProcessor.EventTypeHandlers;
 
 namespace Nether.Analytics.EventProcessor
 {
@@ -17,6 +24,10 @@ namespace Nether.Analytics.EventProcessor
     public static class GameEventReceiver
     {
         private static readonly GameEventRouter s_router;
+        private static CloudBlobContainer s_tmpContainer;
+        private static CloudBlobContainer s_outputContainer;
+        private const string FullMessagesQueueName = "fullmessages";
+        private static BlobOutputManager s_blobOutputManager;
 
         static GameEventReceiver()
         {
@@ -44,14 +55,30 @@ namespace Nether.Analytics.EventProcessor
             var outputEventHubName = ConfigResolver.Resolve("NETHER_INTERMEDIATE_EVENTHUB_NAME");
             Console.WriteLine($"outputEventHubName: {outputEventHubName}");
 
-            var maxBlobSize = 10 * 1024; // 10kB
+            string webJobDashboardAndStorageConnectionString = ConfigResolver.Resolve("NETHER_WEBJOB_DASHBOARD_AND_STORAGE_CONNECTIONSTRING");
+
+            var maxBlobSize = 100 * 1024 * 1024; // 100MB, USE CONFIG TO CHANGE MAX SIZE
+            var maxBlobSizeConfig = ConfigResolver.Resolve("NETHER_BLOB_MAX_SIZE");
+            if (!string.IsNullOrWhiteSpace(maxBlobSizeConfig))
+                maxBlobSize = int.Parse(maxBlobSizeConfig);
+
 
             Console.WriteLine($"Max Blob Size: {maxBlobSize / 1024 / 1024}MB ({maxBlobSize}B)");
+
+            var bingMapsKey = ConfigResolver.Resolve("NETHER_BING_MAPS_KEY");
+            if (string.IsNullOrWhiteSpace(bingMapsKey))
+                Console.WriteLine("Location lookup is not configured, please specify a configuration for NETHER_BING_MAPS_KEY");
+            else
+                Console.WriteLine($"Using Bing Maps to lookup locations with key: {bingMapsKey}");
+
+
+            Console.WriteLine();
             Console.WriteLine();
 
             // Configure Blob Output
-            var blobOutputManager = new BlobOutputManager(
+            s_blobOutputManager = new BlobOutputManager(
                 storageAccountConnectionString,
+                webJobDashboardAndStorageConnectionString,
                 tmpContainer,
                 outputContainer,
                 maxBlobSize);
@@ -59,8 +86,14 @@ namespace Nether.Analytics.EventProcessor
             // Configure EventHub Output
             var eventHubOutputManager = new EventHubOutputManager(outputEventHubConnectionString, outputEventHubName);
 
+            ILocationLookupProvider lookupProvider;
+            if (string.IsNullOrWhiteSpace(bingMapsKey))
+                lookupProvider = new NullLocationLookupProvider();
+            else
+                lookupProvider = new BingLocationLookupProvider(bingMapsKey);
+
             // Setup Handler to use above configured output managers
-            var handler = new GameEventHandler(blobOutputManager, eventHubOutputManager);
+            var handler = new GameEventHandler(s_blobOutputManager, eventHubOutputManager, lookupProvider);
 
             // Configure Router to switch handeling to correct method depending on game event type
             s_router = new GameEventRouter(GameEventHandler.ResolveEventType,
@@ -79,15 +112,19 @@ namespace Nether.Analytics.EventProcessor
             s_router.RegisterKnownGameEventTypeHandler("generic/v1.0.0", handler.HandleGenericEvent);
             s_router.RegisterKnownGameEventTypeHandler("level-completed/v1.0.0", handler.HandleLevelCompletedEvent);
             s_router.RegisterKnownGameEventTypeHandler("level-start/v1.0.0", handler.HandleLevelStartEvent);
+
+            // setup containers
+            var cloudStorageAccount = CloudStorageAccount.Parse(storageAccountConnectionString);
+            var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+
+            s_tmpContainer = cloudBlobClient.GetContainerReference(tmpContainer);
+            s_outputContainer = cloudBlobClient.GetContainerReference(outputContainer);
+
+            var createTmpContainer = s_tmpContainer.CreateIfNotExistsAsync();
+            var createOutputContainer = s_outputContainer.CreateIfNotExistsAsync();
+
+            Task.WaitAll(createTmpContainer, createOutputContainer);
         }
-
-        //public void HandleOne([EventHubTrigger("%NETHER_INGEST_EVENTHUB_NAME%")] string data)
-        //{
-        //    //TODO: Figure out how to configure above EventHubName now named ingest
-
-        //    // Forward data to "router" in order to handle the event
-        //    _router.HandleGameEvent(data);
-        //}
 
         public static void HandleBatch([EventHubTrigger("%NETHER_INGEST_EVENTHUB_NAME%")] EventData[] events)
         {
@@ -103,6 +140,15 @@ namespace Nether.Analytics.EventProcessor
             }
 
             s_router.Flush();
+        }
+
+        /// <summary>
+        /// Time triggered function - goes over all the blobs in the tmp container ones marked as copied
+        /// </summary>        
+        public static async Task TimerJob([TimerTrigger("00:00:30")] TimerInfo timer)
+        {
+            Console.WriteLine("TimerJob triggered");
+            await s_blobOutputManager.AppendBlobCleanup();
         }
     }
 }

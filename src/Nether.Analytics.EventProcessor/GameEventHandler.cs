@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using NGeoHash.Portable;
+using Nether.Analytics.EventProcessor.GameEvents;
+using Nether.Analytics.EventProcessor.EventTypeHandlers;
 
 namespace Nether.Analytics.EventProcessor
 {
@@ -22,11 +24,13 @@ namespace Nether.Analytics.EventProcessor
     {
         private readonly BlobOutputManager _blobOutputManager;
         private readonly EventHubOutputManager _eventHubOutputManager;
+        private readonly ILocationLookupProvider _locationLookupProvider;
 
-        public GameEventHandler(BlobOutputManager blobOutputManager, EventHubOutputManager eventHubOutputManager)
+        public GameEventHandler(BlobOutputManager blobOutputManager, EventHubOutputManager eventHubOutputManager, ILocationLookupProvider locationLookupProvider)
         {
             _blobOutputManager = blobOutputManager;
             _eventHubOutputManager = eventHubOutputManager;
+            _locationLookupProvider = locationLookupProvider;
         }
 
         public void Flush()
@@ -78,23 +82,55 @@ namespace Nether.Analytics.EventProcessor
 
         public void HandleLocationEvent(GameEventData data)
         {
-            var locationEvent = JsonConvert.DeserializeObject<LocationEvent>(data.Data);
+            const int GeoHashBitPrecision = 32; //bits
+            const int LocationLookupGeoHashBitPrecistion = 30; //bits
 
-            var geoHash = GeoHash.Encode(locationEvent.Latitude, locationEvent.Longitude);
-            locationEvent.Geohash = geoHash;
+            var inEvent = JsonConvert.DeserializeObject<IncommingLocationEvent>(data.Data);
+
+            var geoHash = GeoHash.EncodeInt(inEvent.Lat, inEvent.Lon, GeoHashBitPrecision);
+            var geoHashCenterCoordinates = GeoHash.DecodeInt(geoHash, GeoHashBitPrecision).Coordinates;
+            var locationLookupGeoHash = GeoHash.EncodeInt(inEvent.Lat, inEvent.Lon, LocationLookupGeoHashBitPrecistion);
+
+            var l = new LocationEventHandler(_locationLookupProvider);
+            var location = l.LookupGeoHash(locationLookupGeoHash, LocationLookupGeoHashBitPrecistion);
+
+            var outEvent = new OutgoingLocationEvent
+            {
+                EnqueTime = data.EnqueuedTime,
+                DequeTime = data.DequeuedTime,
+                ClientUtcTime = inEvent.ClientUtcTime,
+                GameSessionId = inEvent.GameSessionId,
+                Lat = inEvent.Lat,
+                Lon = inEvent.Lon,
+                GeoHash = geoHash,
+                GeoHashPrecision = GeoHashBitPrecision,
+                GeoHashCenterLat = geoHashCenterCoordinates.Lat,
+                GeoHashCenterLon = geoHashCenterCoordinates.Lon,
+                Country = location.Country,
+                District = location.District,
+                City = location.City,
+                Properties = inEvent.Properties
+            };
 
             //TODO: Optimize this so we don't serialize back to JSON first and then to CSV
 
-            data.Data = JsonConvert.SerializeObject(
-                locationEvent,
+            var jsonObject = JsonConvert.SerializeObject(
+                outEvent,
                 Formatting.Indented,
                 new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
-            var serializedGameEvent = data.ToCsv("gameSessionId", "longitude", "latitude", "geohash");
+            data.Data = jsonObject;
 
-            _blobOutputManager.QueueAppendToBlob(data, serializedGameEvent);
-            _eventHubOutputManager.SendToEventHub(data, serializedGameEvent);
+            var csvObject = data.ToCsv("gameSessionId", "lat", "lon",
+                "geoHash", "geoHashPrecision",
+                "geoHashCenterLat", "geoHashCenterLon", "country", "district", "city");
+
+            // Output CSV to BLOB Storage and JSON to StreamAnalytics (via EventHub)
+            _blobOutputManager.QueueAppendToBlob(data, csvObject);
+            _eventHubOutputManager.SendToEventHub(data, jsonObject);
         }
+
+
 
         public void HandleScoreEvent(GameEventData data)
         {
@@ -178,19 +214,5 @@ namespace Nether.Analytics.EventProcessor
         {
             return $"{gameEventType}/v{version}";
         }
-    }
-
-    //TODO: Move file out of here as soon as we find a good way of sharing the Game Event Types between different projects.
-    // Right now this is a copy of how the event type look like in the Nether.Analytics.GameEvents 
-    public class LocationEvent
-    {
-        public string Type => "location";
-        public string Version => "1.0.0";
-        public DateTime ClientUtcTime { get; set; }
-        public string GameSessionId { get; set; }
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public string Geohash { get; set; }
-        public Dictionary<string, string> Properties { get; set; }
     }
 }
