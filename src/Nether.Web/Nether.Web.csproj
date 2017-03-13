@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Nether.Integration\Nether.Integration.csproj" />
     <ProjectReference Include="..\Nether.Integration.Default\Nether.Integration.Default.csproj" />
     <ProjectReference Include="..\Nether.Data.Sql\Nether.Data.Sql.csproj" />
+    <ProjectReference Include="..\Nether.Data.MySql\Nether.Data.MySql.csproj" />
   </ItemGroup>
 
   <ItemGroup>

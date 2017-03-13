@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nether.Data.EntityFramework
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nether.Data.InMemory", "src\Nether.Data.InMemory\Nether.Data.InMemory.csproj", "{E193CDEF-0298-4E87-8B4D-47B5CA1E019B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nether.Data.MySql", "src\Nether.Data.MySql\Nether.Data.MySql.csproj", "{E23B37D9-8AEB-4AA5-B78D-E6614607F001}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,6 +191,12 @@ Global
 		{E193CDEF-0298-4E87-8B4D-47B5CA1E019B}.Release - Full|Any CPU.Build.0 = Release|Any CPU
 		{E193CDEF-0298-4E87-8B4D-47B5CA1E019B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E193CDEF-0298-4E87-8B4D-47B5CA1E019B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Release - Full|Any CPU.ActiveCfg = Release|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Release - Full|Any CPU.Build.0 = Release|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,5 +224,6 @@ Global
 		{1E982066-A6A2-434F-BFF8-A4C09716D429} = {EF399303-FFFD-4D40-9143-B3B40D15D316}
 		{44AF2745-059D-4040-BFC7-8478389B1479} = {EF399303-FFFD-4D40-9143-B3B40D15D316}
 		{E193CDEF-0298-4E87-8B4D-47B5CA1E019B} = {EF399303-FFFD-4D40-9143-B3B40D15D316}
+		{E23B37D9-8AEB-4AA5-B78D-E6614607F001} = {EF399303-FFFD-4D40-9143-B3B40D15D316}
 	EndGlobalSection
 EndGlobal
