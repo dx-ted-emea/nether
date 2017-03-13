@@ -201,13 +201,25 @@ namespace Nether.Web.Features.Identity
                         services.AddTransient<IdentityContextBase, InMemoryIdentityContext>();
                         break;
                     case "sql":
-                        logger.LogInformation("Identity:Store: using 'Sql' store");
-                        string connectionString = scopedConfiguration["ConnectionString"];
-                        services.AddTransient<IUserStore, EntityFrameworkUserStore>();
-                        // Add IdentityContextOptions to configure for SQL Server
-                        services.AddSingleton(new SqlIdentityContextOptions { ConnectionString = connectionString });
-                        services.AddTransient<IdentityContextBase, SqlIdentityContext>();
-                        break;
+                        {
+                            logger.LogInformation("Identity:Store: using 'Sql' store");
+                            string connectionString = scopedConfiguration["ConnectionString"];
+                            services.AddTransient<IUserStore, EntityFrameworkUserStore>();
+                            // Add IdentityContextOptions to configure for SQL Server
+                            services.AddSingleton(new SqlIdentityContextOptions { ConnectionString = connectionString });
+                            services.AddTransient<IdentityContextBase, SqlIdentityContext>();
+                            break;
+                        }
+                    case "mysql":
+                        {
+                            logger.LogInformation("Identity:Store: using 'MySql' store");
+                            string connectionString = scopedConfiguration["ConnectionString"];
+                            services.AddTransient<IUserStore, EntityFrameworkUserStore>();
+                            // Add IdentityContextOptions to configure for SQL Server
+                            services.AddSingleton(new MySqlIdentityContextOptions { ConnectionString = connectionString });
+                            services.AddTransient<IdentityContextBase, MySqlIdentityContext>();
+                            break;
+                        }
                     default:
                         throw new Exception($"Unhandled 'wellKnown' type for Identity:Store: '{wellKnownType}'");
                 }
@@ -236,14 +248,28 @@ namespace Nether.Web.Features.Identity
                 return;
             }
             var wellKnownType = configuration["Identity:Store:wellknown"];
-            if (wellKnownType == "sql")
+            switch (wellKnownType)
             {
-                logger.LogInformation("Run Migrations for SqlIdentityContext");
-                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-                {
-                    var context = (SqlIdentityContext)serviceScope.ServiceProvider.GetRequiredService<IdentityContextBase>();
-                    context.Database.Migrate();
-                }
+                case "sql":
+                    {
+                        logger.LogInformation("Run Migrations for SqlIdentityContext");
+                        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var context = (SqlIdentityContext)serviceScope.ServiceProvider.GetRequiredService<IdentityContextBase>();
+                            context.Database.Migrate();
+                        }
+                        break;
+                    }
+                case "mysql":
+                    {
+                        logger.LogInformation("Run Migrations for MySqlIdentityContext");
+                        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var context = (MySqlIdentityContext)serviceScope.ServiceProvider.GetRequiredService<IdentityContextBase>();
+                            context.Database.Migrate();
+                        }
+                        break;
+                    }
             }
 
             app.EnsureInitialAdminUser(configuration, logger);
