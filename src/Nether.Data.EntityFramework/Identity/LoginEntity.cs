@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 
-namespace Nether.Data.Sql.Identity
+namespace Nether.Data.EntityFramework.Identity
 {
     [DebuggerDisplay("LoginEntity (UserId '{UserId}', Type '{ProviderType}', Id '{ProviderId}')")]
     public class LoginEntity

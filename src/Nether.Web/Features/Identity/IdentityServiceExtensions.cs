@@ -1,28 +1,32 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 
-using Nether.Data.Identity;
-using Nether.Web.Features.Identity.Configuration;
-using Nether.Common.DependencyInjection;
-using Nether.Data.Sql.Identity;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using IdentityServer4.Models;
-using System.Collections.Generic;
-using Nether.Integration.Identity;
-using Microsoft.AspNetCore.Builder;
-using System.IdentityModel.Tokens.Jwt;
-using Nether.Web.Utilities;
+
+
 using Nether.Common.ApplicationPerformanceMonitoring;
+using Nether.Common.DependencyInjection;
+using Nether.Data.Identity;
+using Nether.Data.EntityFramework.Identity;
+using Nether.Data.InMemory.Identity;
+using Nether.Data.MySql.Identity;
+using Nether.Data.Sql.Identity;
+using Nether.Integration.Identity;
+using Nether.Web.Features.Identity.Configuration;
+using Nether.Web.Utilities;
 
 namespace Nether.Web.Features.Identity
 {

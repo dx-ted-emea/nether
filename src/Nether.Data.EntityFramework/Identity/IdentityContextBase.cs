@@ -10,7 +10,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace Nether.Data.Sql.Identity
+namespace Nether.Data.EntityFramework.Identity
 {
     public abstract class IdentityContextBase : DbContext
     {

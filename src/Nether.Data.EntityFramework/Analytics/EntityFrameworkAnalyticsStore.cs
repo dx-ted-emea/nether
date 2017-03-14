@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Nether.Data.Sql.Analytics
+namespace Nether.Data.EntityFramework.Analytics
 {
     public class EntityFrameworkAnalyticsStore : IAnalyticsStore
     {

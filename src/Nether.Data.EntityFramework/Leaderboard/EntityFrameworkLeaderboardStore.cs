@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Nether.Data.Sql.Leaderboard
+namespace Nether.Data.EntityFramework.Leaderboard
 {
     public class EntityFrameworkLeaderboardStore : ILeaderboardStore
     {

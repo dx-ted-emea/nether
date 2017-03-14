@@ -3,8 +3,7 @@
 
 using System;
 
-namespace Nether.Data.Sql
-    .Analytics
+namespace Nether.Data.EntityFramework.Analytics
 {
     public class MonthlyDurationsEntity
     {

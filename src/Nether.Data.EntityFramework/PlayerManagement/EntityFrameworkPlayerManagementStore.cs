@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nether.Data.Sql.PlayerManagement
+namespace Nether.Data.EntityFramework.PlayerManagement
 {
     public class EntityFrameworkPlayerManagementStore : IPlayerManagementStore
     {

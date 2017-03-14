@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Nether.Data.Sql.Identity
+namespace Nether.Data.EntityFramework.Identity
 {
     [DebuggerDisplay("UserEntity ({UserId})")]
     public class UserEntity

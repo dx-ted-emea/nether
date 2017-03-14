@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Nether.Data.Sql.Common
+namespace Nether.Data.EntityFramework.Common
 {
     public static class ConfigurationHelper
     {

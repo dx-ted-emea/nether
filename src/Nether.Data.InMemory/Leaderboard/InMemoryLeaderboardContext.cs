@@ -8,8 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Nether.Data.EntityFramework.Leaderboard;
 
-namespace Nether.Data.Sql.Leaderboard
+namespace Nether.Data.InMemory.Leaderboard
 {
     public class InMemoryLeaderboardContext : LeaderboardContextBase
     {

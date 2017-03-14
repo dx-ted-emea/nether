@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Nether.Data.Sql.Identity;
 
 namespace Nether.Data.MySql.Identity.Migrations
 {
@@ -16,7 +14,7 @@ namespace Nether.Data.MySql.Identity.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
-            modelBuilder.Entity("Nether.Data.Sql.Identity.LoginEntity", b =>
+            modelBuilder.Entity("Nether.Data.EntityFramework.Identity.LoginEntity", b =>
                 {
                     b.Property<string>("UserId")
                         .HasMaxLength(50);
@@ -36,7 +34,7 @@ namespace Nether.Data.MySql.Identity.Migrations
                     b.HasAnnotation("MySql:TableName", "UserLogins");
                 });
 
-            modelBuilder.Entity("Nether.Data.Sql.Identity.UserEntity", b =>
+            modelBuilder.Entity("Nether.Data.EntityFramework.Identity.UserEntity", b =>
                 {
                     b.Property<string>("UserId")
                         .ValueGeneratedOnAdd()
@@ -55,9 +53,9 @@ namespace Nether.Data.MySql.Identity.Migrations
                     b.HasAnnotation("MySql:TableName", "Users");
                 });
 
-            modelBuilder.Entity("Nether.Data.Sql.Identity.LoginEntity", b =>
+            modelBuilder.Entity("Nether.Data.EntityFramework.Identity.LoginEntity", b =>
                 {
-                    b.HasOne("Nether.Data.Sql.Identity.UserEntity", "User")
+                    b.HasOne("Nether.Data.EntityFramework.Identity.UserEntity", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nether.Data.Sql.Leaderboard
+namespace Nether.Data.EntityFramework.Leaderboard
 {
     public class SavedGamerScore
     {

@@ -4,10 +4,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using Nether.Data.EntityFramework.Identity;
 
-using Pomelo.EntityFrameworkCore.MySql;
-
-namespace Nether.Data.Sql.Identity
+namespace Nether.Data.MySql.Identity
 {
     public class MySqlIdentityContext : IdentityContextBase
     {
@@ -33,7 +32,7 @@ namespace Nether.Data.Sql.Identity
 
             builder.UseMySql(_options.ConnectionString, options =>
             {
-                options.MigrationsAssembly(typeof(MySqlIdentityContext).GetTypeInfo().Assembly.GetName().Name);
+                options.MigrationsAssembly(GetType().GetTypeInfo().Assembly.GetName().Name);
             });
         }
     }

@@ -4,7 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Nether.Data.Sql.Analytics
+namespace Nether.Data.EntityFramework.Analytics
 {
     public abstract class AnalyticsContextBase : DbContext
     {

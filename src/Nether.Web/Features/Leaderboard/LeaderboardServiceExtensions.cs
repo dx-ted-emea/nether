@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Nether.Web.Utilities;
+using Nether.Data.EntityFramework.Leaderboard;
+using Nether.Data.InMemory.Leaderboard;
 
 namespace Nether.Web.Features.Leaderboard
 {

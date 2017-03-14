@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 
-namespace Nether.Data.Sql.PlayerManagement
+namespace Nether.Data.EntityFramework.PlayerManagement
 {
     public abstract class PlayerManagementContextBase : DbContext
     {

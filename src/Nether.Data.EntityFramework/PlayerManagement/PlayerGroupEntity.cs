@@ -10,7 +10,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace Nether.Data.Sql.PlayerManagement
+namespace Nether.Data.EntityFramework.PlayerManagement
 {
     /// <summary>
     /// Maps a player to a group

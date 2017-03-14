@@ -3,8 +3,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Nether.Data.EntityFramework.PlayerManagement;
 
-namespace Nether.Data.Sql.PlayerManagement
+namespace Nether.Data.InMemory.PlayerManagement
 {
     public class InMemoryPlayerManagementContext : PlayerManagementContextBase
     {

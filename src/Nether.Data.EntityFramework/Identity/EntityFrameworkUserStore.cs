@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Nether.Data.Sql.Identity
+namespace Nether.Data.EntityFramework.Identity
 {
     public class EntityFrameworkUserStore : IUserStore
     {
