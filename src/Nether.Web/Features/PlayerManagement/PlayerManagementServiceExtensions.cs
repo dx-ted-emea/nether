@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Nether.Web.Utilities;
 using Nether.Data.EntityFramework.PlayerManagement;
 using Nether.Data.InMemory.PlayerManagement;
+using Nether.Data.MySql.PlayerManagement;
 
 namespace Nether.Web.Features.PlayerManagement
 {
@@ -67,6 +68,12 @@ namespace Nether.Web.Features.PlayerManagement
                         services.AddTransient<PlayerManagementContextBase, SqlPlayerManagementContext>();
                         services.AddTransient<IPlayerManagementStore, EntityFrameworkPlayerManagementStore>();
                         break;
+                    case "mysql":
+                        logger.LogInformation("PlayerManagement:Store: using 'mysql' store");
+                        services.AddSingleton(new MySqlPlayerManagementContextOptions { ConnectionString = connectionString });
+                        services.AddTransient<PlayerManagementContextBase, MySqlPlayerManagementContext>();
+                        services.AddTransient<IPlayerManagementStore, EntityFrameworkPlayerManagementStore>();
+                        break;
                     default:
                         throw new Exception($"Unhandled 'wellKnown' type for PlayerManagement:Store: '{wellKnownType}'");
                 }
@@ -100,8 +107,16 @@ namespace Nether.Web.Features.PlayerManagement
                         }
                     }
                     break;
-
-            }
+                case "mysql":
+                    {
+                        logger.LogInformation("Run Migrations for MySqlPlayerManagementContext");
+                        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var context = (MySqlPlayerManagementContext)serviceScope.ServiceProvider.GetRequiredService<PlayerManagementContextBase>();
+                            context.Database.Migrate();
+                        }
+                    }
+                    break;            }
         }
     }
 }
