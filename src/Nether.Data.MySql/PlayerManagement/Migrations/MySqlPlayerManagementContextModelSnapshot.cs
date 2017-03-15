@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -8,7 +11,7 @@ using Nether.Data.MySql.PlayerManagement;
 namespace Nether.Data.MySql.PlayerManagement.Migrations
 {
     [DbContext(typeof(MySqlPlayerManagementContext))]
-    partial class MySqlPlayerManagementContextModelSnapshot : ModelSnapshot
+    internal partial class MySqlPlayerManagementContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

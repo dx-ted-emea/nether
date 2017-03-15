@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -8,7 +11,7 @@ using Nether.Data.MySql.Leaderboard;
 namespace Nether.Data.MySql.Leaderboard.Migrations
 {
     [DbContext(typeof(MySqlLeaderboardContext))]
-    partial class MySqlLeaderboardContextModelSnapshot : ModelSnapshot
+    internal partial class MySqlLeaderboardContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

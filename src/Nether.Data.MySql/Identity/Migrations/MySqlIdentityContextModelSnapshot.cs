@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -7,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Nether.Data.MySql.Identity.Migrations
 {
     [DbContext(typeof(MySqlIdentityContext))]
-    partial class MySqlIdentityContextModelSnapshot : ModelSnapshot
+    internal partial class MySqlIdentityContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

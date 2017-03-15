@@ -95,7 +95,7 @@ namespace Nether.Web.Features.PlayerManagement
             }
 
             var wellKnownType = configuration["PlayerManagement:Store:wellknown"];
-            switch(wellKnownType)
+            switch (wellKnownType)
             {
                 case "sql":
                     {
@@ -116,7 +116,8 @@ namespace Nether.Web.Features.PlayerManagement
                             context.Database.Migrate();
                         }
                     }
-                    break;            }
+                    break;
+            }
         }
     }
 }
