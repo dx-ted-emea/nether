@@ -15,13 +15,13 @@ namespace Nether.Data.MySql.PlayerManagement
     /// Class added to enable creating EF Migrations
     /// See https://docs.microsoft.com/en-us/ef/core/api/microsoft.entityframeworkcore.infrastructure.idbcontextfactory-1
     /// </summary>
-    public class SqlPlayerManagementContextFactory : IDbContextFactory<MySqlPlayerManagementContext>
+    public class MySqlPlayerManagementContextFactory : IDbContextFactory<MySqlPlayerManagementContext>
     {
         public MySqlPlayerManagementContext Create(DbContextFactoryOptions options)
         {
             var loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var logger = loggerFactory.CreateLogger<SqlPlayerManagementContextFactory>();
+            var logger = loggerFactory.CreateLogger<MySqlPlayerManagementContextFactory>();
 
 
             var configuration = ConfigurationHelper.GetConfiguration(logger, options.ContentRootPath, options.EnvironmentName);
