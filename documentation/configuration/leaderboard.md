@@ -38,6 +38,22 @@ To configure the SQL Server store, use the configuration below setting the `Conn
 
 The SQL Server implementation works with local SQL Server and [Azure SQL Database](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-get-started). For help on getting the connection string for Azure SQL Database, see [How to get sql database connection string for Azure SQL Database?](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-develop-dotnet-simple)
 
+### MySQL
+
+To configure the MySQL store, use the configuration below setting the `ConnectionString` property to the connection string to your database:
+
+```json
+  "Leaderboard" : {
+        "Store": {
+            "wellknown": "mysql",
+            "properties": {
+              "ConnectionString": "<connection string>"
+            }
+        }
+  }
+```
+
+
 ## Leaderboards Configuration
 The leaderboard _GET_ API will return various leaderboards, based on pre-defined configurations - top 10 ranks, all ranks, ranks around me and more.
 The different types of leaderboards are defined in the appsetting.json file under the `Leaderboards` section, and can be extended by simply adding an entry for a new leaderboard.
