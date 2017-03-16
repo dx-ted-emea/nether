@@ -57,6 +57,22 @@ To configure the SQL Server store, use the configuration below setting the `Conn
 
 The SQL Server implementation works with local SQL Server and [Azure SQL Database](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-get-started). For help on getting the connection string for Azure SQL Database, see [How to get sql database connection string for Azure SQL Database?](https://docs.microsoft.com/en-us/azure/sql-database/sql-database-develop-dotnet-simple)
 
+### MySQL
+
+To configure the MySQL store, use the configuration below setting the `ConnectionString` property to the connection string to your database:
+
+```json
+  "Identity" : {
+        "Store": {
+            "wellknown": "mysql",
+            "properties": {
+              "ConnectionString": "<connection string>"
+            }
+        }
+  }
+```
+
+
 ## Identity Server
 
 The Identity services us [Identity Server](https://github.com/IdentityServer/IdentityServer4), and there are a couple of pieces of configuration that are exposed as shown below:

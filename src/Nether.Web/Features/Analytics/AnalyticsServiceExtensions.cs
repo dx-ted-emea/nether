@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Nether.Common.DependencyInjection;
 using Nether.Data.Analytics;
 using Nether.Web.Utilities;
+using Nether.Data.EntityFramework.Analytics;
+using Nether.Data.InMemory.Analytics;
 
 namespace Nether.Web.Features.Analytics
 {

@@ -27,11 +27,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nether.Common\Nether.Common.csproj" />
+    <ProjectReference Include="..\Nether.Data.InMemory\Nether.Data.InMemory.csproj" />
     <ProjectReference Include="..\Nether.Data.MongoDB\Nether.Data.MongoDB.csproj" />
     <ProjectReference Include="..\Nether.Data\Nether.Data.csproj" />
     <ProjectReference Include="..\Nether.Integration\Nether.Integration.csproj" />
     <ProjectReference Include="..\Nether.Integration.Default\Nether.Integration.Default.csproj" />
     <ProjectReference Include="..\Nether.Data.Sql\Nether.Data.Sql.csproj" />
+    <ProjectReference Include="..\Nether.Data.MySql\Nether.Data.MySql.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,13 +51,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.0" />
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc1" />

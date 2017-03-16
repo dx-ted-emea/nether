@@ -128,7 +128,7 @@ Get-Content "$here\build\build-order.txt" `
     | Where-Object { $_ -ne "" } `
     | ForEach-Object { 
     Write-Output "*** dotnet build $_"
-    dotnet build $_
+    dotnet build $_ #/property:GenerateFullPaths=true
     if ($LASTEXITCODE -ne 0){
         $buildExitCode = $LASTEXITCODE
     }

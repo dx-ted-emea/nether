@@ -47,3 +47,8 @@ or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any addi
 
 Nether is licensed under the MIT License.
 
+# 3rd party packages
+
+[MongoDB.Driver](https://www.nuget.org/packages/MongoDB.Driver/2.3.0-rc1)  
+[IdentityServer4](http://identityserver4.readthedocs.io/en/release/)
+[Pomelo.EntityFrameworkCore.MySql](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql)

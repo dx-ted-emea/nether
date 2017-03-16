@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Nether.Web.Utilities;
+using Nether.Data.EntityFramework.Leaderboard;
+using Nether.Data.InMemory.Leaderboard;
+using Nether.Data.MySql.Leaderboard;
 
 namespace Nether.Web.Features.Leaderboard
 {
@@ -122,6 +125,13 @@ namespace Nether.Web.Features.Leaderboard
                         services.AddTransient<LeaderboardContextBase, SqlLeaderboardContext>();
                         services.AddTransient<ILeaderboardStore, EntityFrameworkLeaderboardStore>();
                         break;
+                    case "mysql":
+                        logger.LogInformation("Leaderboard:Store: using 'mysql' store");
+                        connectionString = scopedConfiguration["ConnectionString"];
+                        services.AddSingleton(new MySqlLeaderboardContextOptions { ConnectionString = connectionString });
+                        services.AddTransient<LeaderboardContextBase, MySqlLeaderboardContext>();
+                        services.AddTransient<ILeaderboardStore, EntityFrameworkLeaderboardStore>();
+                        break;
                     default:
                         throw new Exception($"Unhandled 'wellKnown' type for Leaderboard:Store: '{wellKnownType}'");
                 }
@@ -196,14 +206,28 @@ namespace Nether.Web.Features.Leaderboard
             }
 
             var wellKnownType = configuration["Leaderboard:Store:wellknown"];
-            if (wellKnownType == "sql")
+            switch (wellKnownType)
             {
-                logger.LogInformation("Run Migrations for SqlLeaderboardContext");
-                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-                {
-                    var context = (SqlLeaderboardContext)serviceScope.ServiceProvider.GetRequiredService<LeaderboardContextBase>();
-                    context.Database.Migrate();
-                }
+                case "sql":
+                    {
+                        logger.LogInformation("Run Migrations for SqlLeaderboardContext");
+                        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var context = (SqlLeaderboardContext)serviceScope.ServiceProvider.GetRequiredService<LeaderboardContextBase>();
+                            context.Database.Migrate();
+                        }
+                    }
+                    break;
+                case "mysql":
+                    {
+                        logger.LogInformation("Run Migrations for MySqlLeaderboardContext");
+                        using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                        {
+                            var context = (MySqlLeaderboardContext)serviceScope.ServiceProvider.GetRequiredService<LeaderboardContextBase>();
+                            context.Database.Migrate();
+                        }
+                    }
+                    break;
             }
         }
     }
