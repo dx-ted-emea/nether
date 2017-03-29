@@ -18,7 +18,7 @@ Installation is simple. You download the package from the Unity Asset Store and 
 
 ### Usage
 
-Generally, Nether access methods have the signature **NetherSDK.Instance.DoSomething(instanceForPutOrPost, callbackWithResultOrError)**. 
+Generally, Nether access methods have the signature **NetherSDK.Instance.DoSomething(instanceForPutOrPost, callbackWithResultOrError)**. The callback has an instance of CallbackResponse<T> as argument which you can inspect to see the results of your Nether API call. Make sure you check the Status property to determine if the call was successful.
 
 #### Get Nether token
 
@@ -101,7 +101,7 @@ NetherClient.Instance.PutPlayer (new Player () {
 		});
 ```
 
-#### Get Leaderboards action
+#### Get Leaderboards 
 
 You can use the NetherClient.Instance.GetLeaderboards method to get leaderboards
 
@@ -114,6 +114,21 @@ NetherClient.Instance.GetLeaderboards (result => {
 			} else
 				Debug.Log ("no leaderboards available");
 		});
+```
+
+#### Get named Leaderboard 
+
+After you call the GetLeaderboards method, you can use the NetherClient.Instance.GetLeaderboardNamed method to get a specific leaderboard
+
+```csharp
+ NetherClient.Instance.GetLeaderboardNamed("Default", result => {
+            if (result.Result != null )
+            {
+                Debug.Log(JsonUtility.ToJson(result.Result));
+            }
+            else
+                Debug.Log("no leaderboard available with that name");
+        });
 ```
 
 #### Post Data
