@@ -109,7 +109,7 @@ You can use the NetherClient.Instance.GetLeaderboards method to get leaderboards
 NetherClient.Instance.GetLeaderboards (result => {
 			if (result.Result != null && result.Result.Length > 0) {
 				foreach (var item in result.Result) {
-					Debug.Log (item.name + " " + item._link);
+					Debug.Log (JsonUtility.ToJson(item));
 				}
 			} else
 				Debug.Log ("no leaderboards available");
