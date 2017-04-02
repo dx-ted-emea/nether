@@ -16,11 +16,13 @@ Installation is simple. You download the package from the Unity Asset Store and 
 3. Configure authentication in your game (e.g. Facebook). You may need to download external library for this purpose, e.g. you can find the Facebook SDK for Unity [here](https://developers.facebook.com/docs/unity/)
 4. You're done! Now you can safely call Nether methods
 
-#### Pics
+#### Sample pics
 
-![NetherClient prefab]/blob/master/documentation/SDKs/unity/images/1.JPG?raw=true)
-![Set Nether options](https://github.com/dgkanatsios/nether/blob/master/documentation/SDKs/unity/images/2.JPG?raw=true)
-![Configure Facebook authentication](https://github.com/dgkanatsios/nether/blob/master/documentation/SDKs/unity/images/3.JPG?raw=true)
+####NetherClient prefab
+![NetherClient prefab](/blob/master/documentation/SDKs/unity/images/1.JPG?raw=true)
+
+####Set Nether options
+![Set Nether options](/blob/master/documentation/SDKs/unity/images/2.JPG?raw=true)
 
 ### Usage
 
