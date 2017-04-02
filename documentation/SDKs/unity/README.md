@@ -18,9 +18,9 @@ Installation is simple. You download the package from the Unity Asset Store and 
 
 #### Pics
 
-![NetherClient prefab](./images/1.jpg)
-![Set Nether options](./images/2.jpg)
-![Configure Facebook authentication](./images/3.jpg)
+![NetherClient prefab](/tree/master/documentation/SDKs/unity/images/1.jpg)
+![Set Nether options](/master/documentation/SDKs/unity/images/2.jpg)
+![Configure Facebook authentication](/nether/tree/master/documentation/SDKs/unity/images/3.jpg)
 
 ### Usage
 
