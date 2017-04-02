@@ -19,10 +19,10 @@ Installation is simple. You download the package from the Unity Asset Store and 
 #### Sample pics
 
 ####NetherClient prefab
-![NetherClient prefab](/blob/master/documentation/SDKs/unity/images/1.JPG?raw=true)
+![NetherClient prefab](/documentation/SDKs/unity/images/1.JPG?raw=true)
 
 ####Set Nether options
-![Set Nether options](/blob/master/documentation/SDKs/unity/images/2.JPG?raw=true)
+![Set Nether options](/documentation/SDKs/unity/images/2.JPG?raw=true)
 
 ### Usage
 
