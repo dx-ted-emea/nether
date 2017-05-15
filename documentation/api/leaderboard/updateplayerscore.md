@@ -1,4 +1,4 @@
-# Post a new score to the Leaderboard
+# Post a new score to a Leaderboard
 
 Called after the game session has finished and user achieved a new score in the game. Or at any time called during the game. The score can be posted against different leaderboards per game.
 
@@ -20,7 +20,7 @@ No parameters
 {
 	"LeaderboardName": "top",
 	"score": 4711,    
-  "location" : "NL"
+  	"location" : "NL"
 }
 ```
 
