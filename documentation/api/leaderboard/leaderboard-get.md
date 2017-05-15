@@ -1,6 +1,6 @@
 # Get Leaderboard
 
-Get a sorted list of scores and gamertags for a defined leaderboard. If {name} is omitted then the default leaderboard is returned.
+Get a sorted list of scores and gamertags for a defined leaderboard.
 
 ## Request
 
@@ -8,7 +8,7 @@ See Common parameters and headers that are used by all requests related to the L
 
 Method  | Request URI
 ------- | -----------
-GET     | `/api/leaderboard/{type}`
+GET     | `/api/leaderboard/{leaderboardname}`
 
 ### Request Parameters
 
