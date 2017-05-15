@@ -14,7 +14,6 @@ GET     | `/api/leaderboard/{leaderboardname}/{startposition}/{maxresults}/{time
 
 Name        | Required |   Type   | Description
 ------------|----------|----------|------------
-type|yes|enumeration|Type of the leaderboard to retrieve. The type can be `default`, `top` or `aroundMe`:<br>- `default` gets all the scores for all the players<br>-`top` gets top 5 scores for all the players<br>- `aroundMe` gets your score and 2 players above and below your score.
 leaderboardname|yes|string|Name of the leaderboard
 startposition|yes|int|Where to start the leaderboard (rank)
 maxresults|yes|int|Maximium number of scores to result
