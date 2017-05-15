@@ -8,13 +8,18 @@ See Common parameters and headers that are used by all requests related to the L
 
 Method  | Request URI
 ------- | -----------
-GET     | `/api/leaderboard/{leaderboardname}`
+GET     | `/api/leaderboard/{leaderboardname}/{startposition}/{maxresults}/{timeframe}/{location}`
 
 ### Request Parameters
 
 Name        | Required |   Type   | Description
 ------------|----------|----------|------------
 type|yes|enumeration|Type of the leaderboard to retrieve. The type can be `default`, `top` or `aroundMe`:<br>- `default` gets all the scores for all the players<br>-`top` gets top 5 scores for all the players<br>- `aroundMe` gets your score and 2 players above and below your score.
+leaderboardname|yes|string|Name of the leaderboard
+startposition|yes|int|Where to start the leaderboard (rank)
+maxresults|yes|int|Maximium number of scores to result
+timeframe|yes|enumeration|The timeframe to return, this can be 'day', 'week', 'month' or 'year'
+location|no|string|Country code, if empty the country is not taking in consideration
 
 ### Request Body
 
