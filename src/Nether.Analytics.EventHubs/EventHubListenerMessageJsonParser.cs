@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.Extensions.Logging;
 using Nether.Analytics.EventHubs;
+using Nether.Analytics.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace Nether.Analytics.Parsers
 {
     public class EventHubListenerMessageJsonParser : IMessageParser<EventHubListenerMessage>
     {
+        private ILogger _logger { get; } = ApplicationLogging.CreateLogger<EventHubListenerMessageJsonParser>();
+
         public Message ParseMessage(EventHubListenerMessage unparsedMsg)
         {
             var data = Encoding.UTF8.GetString(unparsedMsg.Body.Array, unparsedMsg.Body.Offset, unparsedMsg.Body.Count);
@@ -50,8 +54,8 @@ namespace Nether.Analytics.Parsers
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine($"Unable to parse property:{key} as string on {msg.MessageType}");
-                    Console.WriteLine("WARNING: Continuing anyway!!! TODO: Fix this parsing problem!!!");
+                    _logger.LogInformation($"Unable to parse property:{key} as string on {msg.MessageType}");
+                    _logger.LogWarning("WARNING: Continuing anyway!!! TODO: Fix this parsing problem!!!");
                 }
             }
 

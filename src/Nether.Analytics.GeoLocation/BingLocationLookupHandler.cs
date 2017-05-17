@@ -9,6 +9,8 @@ using System.Net.Http;
 using NGeoHash;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Nether.Analytics.Logging;
 
 namespace Nether.Analytics.GeoLocation
 {
@@ -18,6 +20,10 @@ namespace Nether.Analytics.GeoLocation
         private string _latProperty;
         private string _lonProperty;
         private IGeoHashCacheProvider _geoHashCacheProvider;
+
+        private ILogger _logger { get; } = ApplicationLogging.CreateLogger<BingLocationLookupHandler>();
+        private EventId _messageErrorLogEventId = new EventId(9); // <-- TODO: maybe come up with a set of level codes/event ids?
+
 
         public BingLocationLookupHandler(string bingMapsKey, IGeoHashCacheProvider geoHashCacheProvider, int geoHashPrecision,
             string latProperty = "lat", string lonProperty = "lon")
@@ -31,8 +37,6 @@ namespace Nether.Analytics.GeoLocation
 
         public async Task<MessageHandlerResults> ProcessMessageAsync(Message msg, string pipelineName, int idx)
         {
-            //TODO: Replace all console logging of exceptions to generic log solution
-
             double lat;
             double lon;
 
@@ -44,7 +48,7 @@ namespace Nether.Analytics.GeoLocation
             }
             catch (Exception)
             {
-                Console.WriteLine($"Unable to find required properties: '{_latProperty}' and '{_lonProperty}' on message");
+                _logger.LogError($"Unable to find required properties: '{_latProperty}' and '{_lonProperty}' on message");
                 return MessageHandlerResults.FailStopProcessing;
             }
 
@@ -55,12 +59,12 @@ namespace Nether.Analytics.GeoLocation
             if (_geoHashCacheProvider.ContainsGeoHash(geoHash))
             {
                 bingParsingResult = _geoHashCacheProvider[geoHash];
-                Debug.WriteLine("Found in cache");
+                _logger.LogInformation("Found in cache");
             }
             //else, query bing directly
             else
             {
-                Debug.WriteLine("Not found in cache");
+                _logger.LogInformation("Not found in cache");
                 double geoHashCenterLat, geoHashCenterLon;
 
                 //get the center of the geoHash in order to call Bing API with this {lat,lon}
@@ -78,8 +82,7 @@ namespace Nether.Analytics.GeoLocation
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An exception occurred while calling Bing to Lookup coordinates");
-                    Console.WriteLine(ex);
+                    _logger.LogError(_messageErrorLogEventId, ex, "An exception occurred while calling Bing to Lookup coordinates");
 
                     return MessageHandlerResults.FailStopProcessing;
                 }
@@ -95,8 +98,7 @@ namespace Nether.Analytics.GeoLocation
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An exception occurred while trying to parse Location Lookup results from Bing");
-                    Console.WriteLine(ex);
+                    _logger.LogError(_messageErrorLogEventId, ex, "An exception occurred while trying to parse Location Lookup results from Bing");
 
                     return MessageHandlerResults.FailStopProcessing;
                 }
