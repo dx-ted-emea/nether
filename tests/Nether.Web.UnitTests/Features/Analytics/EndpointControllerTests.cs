@@ -6,6 +6,7 @@ using Nether.Web.Features.Analytics;
 using System;
 using Xunit;
 using Nether.Web.Features.Analytics.Models.Endpoint;
+using Microsoft.Extensions.Logging;
 
 namespace Nether.Web.UnitTests.Features.Analytics
 {
@@ -14,6 +15,12 @@ namespace Nether.Web.UnitTests.Features.Analytics
         [Fact]
         public void ShouldBeAbleToRetrieveEndpointInformation()
         {
+            ILoggerFactory loggerFactory = new LoggerFactory()
+                .AddConsole()
+                .AddDebug();
+
+            ILogger<EndpointController> logger = loggerFactory.CreateLogger<EndpointController>();
+
             // Arrange
             var controller = new EndpointController(new EndpointInfo
             {
@@ -21,7 +28,7 @@ namespace Nether.Web.UnitTests.Features.Analytics
                 AccessKey = "qwerty",
                 Resource = "qwerty",
                 Ttl = TimeSpan.FromMinutes(10),
-            });
+            }, logger);
 
             // Act
             var result = controller.Get();
