@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.Extensions.Logging;
+using Nether.Analytics.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace Nether.Analytics
     {
         private Dictionary<string, List<MessagePipeline>> _routingDictionary = new Dictionary<string, List<MessagePipeline>>();
 
+        private ILogger _logger { get; } = ApplicationLogging.CreateLogger<MessageRouter>();
         //private MessagePipeline _unhandledEventPipeline;
 
         public MessageRouter(List<MessagePipeline> messagePipelines)
@@ -50,7 +53,7 @@ namespace Nether.Analytics
             }
             else
             {
-                Console.WriteLine($"No pipeline found for message type: {msg.MessageType}, version: {msg.Version}");
+                _logger.LogInformation($"No pipeline found for message type: {msg.MessageType}, version: {msg.Version}");
                 //TODO Implement unhandled pipeline here
                 //await _unhandledEventPipeline?.ProcessMessageAsync(msg);
             }

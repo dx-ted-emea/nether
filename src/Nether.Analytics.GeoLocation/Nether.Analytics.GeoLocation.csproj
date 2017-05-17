@@ -17,11 +17,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.1" />
     <PackageReference Include="NGeoHash" Version="1.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Nether.Analytics.Logging\Nether.Analytics.Logging.csproj" />
     <ProjectReference Include="..\Nether.Analytics\Nether.Analytics.csproj" />
   </ItemGroup>
   <ItemGroup>

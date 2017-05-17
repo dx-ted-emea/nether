@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.EventHubs;
 using Microsoft.Azure.EventHubs.Processor;
-
-
+using Nether.Analytics.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Nether.Analytics.EventHubs
 {
@@ -15,6 +15,8 @@ namespace Nether.Analytics.EventHubs
     {
         private readonly EventProcessorHost _host;
         private Func<IEnumerable<EventHubListenerMessage>, Task> _messageHandlerAsync;
+
+        private ILogger _logger { get; } = ApplicationLogging.CreateLogger<EventHubsListener>();
 
         public EventHubsListener(EventHubsListenerConfiguration config)
         {
@@ -83,7 +85,7 @@ namespace Nether.Analytics.EventHubs
         public Task ProcessErrorAsync(PartitionContext context, Exception error)
         {
             //TODO: Fix this
-            Console.WriteLine(error.ToString());
+            _logger.LogError(error.ToString());
             //throw new NotImplementedException();
             return Task.CompletedTask;
         }
@@ -91,14 +93,14 @@ namespace Nether.Analytics.EventHubs
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)
         {
-            Console.WriteLine($"EventHubProcessor.CloseAsync Owner:{context.Owner}, PartitionId:{context.PartitionId}");
+            _logger.LogInformation($"EventHubProcessor.CloseAsync Owner:{context.Owner}, PartitionId:{context.PartitionId}");
 
             return Task.CompletedTask;
         }
 
         public Task OpenAsync(PartitionContext context)
         {
-            Console.WriteLine($"EventHubProcessor.OpenAsync Owner:{context.Owner}, PartitionId:{context.PartitionId}");
+            _logger.LogInformation($"EventHubProcessor.OpenAsync Owner:{context.Owner}, PartitionId:{context.PartitionId}");
 
             return Task.CompletedTask;
         }

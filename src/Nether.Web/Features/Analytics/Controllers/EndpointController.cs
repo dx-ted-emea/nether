@@ -7,6 +7,7 @@ using Nether.Web.Utilities;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using Nether.Web.Features.Analytics.Models.Endpoint;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,18 +18,19 @@ namespace Nether.Web.Features.Analytics
     public class EndpointController : Controller
     {
         private readonly EndpointInfo _endpointInfo;
+        private readonly ILogger _logger;
 
-        public EndpointController(EndpointInfo endpointInfo)
+        public EndpointController(EndpointInfo endpointInfo, ILogger<EndpointController> logger)
         {
             _endpointInfo = endpointInfo;
+            _logger = logger;
         }
+
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(AnalyticsEndpointInfoResponseModel))]
         [HttpGet]
         public IActionResult Get()
         {
-            Console.WriteLine();
-            Console.WriteLine($"AccessKey = {_endpointInfo.AccessKey}");
-            Console.WriteLine();
+            _logger.LogInformation($"AccessKey = {_endpointInfo.AccessKey}");
 
             var validUntilUtc = DateTime.UtcNow + _endpointInfo.Ttl;
 

@@ -3,9 +3,11 @@
 
 using Microsoft.Azure.Management.DataLake.Analytics;
 using Microsoft.Azure.Management.DataLake.Analytics.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using Microsoft.Rest.Azure.Authentication;
+using Nether.Analytics.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,7 @@ namespace Nether.Analytics.DataLake
 
         private DataLakeAnalyticsJobManagementClient _dlaJobClient;
         private ServiceClientCredentials _serviceClientCredentials;
+        private ILogger _logger { get; } = ApplicationLogging.CreateLogger<DataLakeAnalyticsJobManager>();
 
         public bool IsAuthenticated
         {
@@ -47,7 +50,7 @@ namespace Nether.Analytics.DataLake
                 script = UsqlHelper.ReplaceVariableValuesInScript(script, variables, out var variablesFound);
             }
 
-            Console.WriteLine(script);
+            _logger.LogInformation(script);
 
             var jobId = Guid.NewGuid();
             var properties = new USqlJobProperties(script);
@@ -64,7 +67,7 @@ namespace Nether.Analytics.DataLake
             while (jobInfo.State != JobState.Ended)
             {
                 jobInfo = _dlaJobClient.Job.Get(_dlaAccountName, jobId);
-                Console.WriteLine(jobInfo.State);
+                _logger.LogInformation(jobInfo.State?.ToString());
             }
             return jobInfo;
         }
