@@ -3,5 +3,5 @@
     "podName":"NetherSDK",
     "podLicense":"MIT License",
     "authorName":"Microsoft Corporation",
-    "gitRepoURL":"git@git.familiepfeifer.de:netherpod"
+    "gitRepoURL":"@PODURL@"
 }

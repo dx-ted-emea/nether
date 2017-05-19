@@ -19,7 +19,7 @@ if [ -f "$api_file" ]; then
 	echo Regenerate $api_file >&2
 	mv -f $f "$api_file"
     else
-	echo Unchanged $api_file >&2
+	# echo Unchanged $api_file >&2
 	rm -f $f
     fi
 else

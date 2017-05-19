@@ -250,7 +250,7 @@ publish_api_doc() {
     newlist=$(mktemp)
     pushd ./docs >/dev/null
     find . -type f | sort > $newlist
-    find . -type f | cpio -pdmu ${target}/docs/
+    find . -type f | cpio -pdmu ${target}/docs/ 2>/dev/null
     popd > /dev/null
     popd >/dev/null
     pushd $target/docs >/dev/null
@@ -292,6 +292,20 @@ if [ -z "$JAVA_HOME" ]; then
     else
 	exit_with_error "java not installed."
     fi
+fi
+
+type -p pod >/dev/null
+if [ $? -ne 0 ]; then
+    cat >&2 <<EOF
+You need to install cocoapods.
+You may use this command:
+
+$ sudo gem install cocoapods
+
+For more details visit https://guides.cocoapods.org/using/getting-started.html
+
+EOF
+    exit_with_error "cocoapods not installed."
 fi
 #
 # Local Variables: 

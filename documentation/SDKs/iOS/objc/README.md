@@ -18,7 +18,7 @@ The SDK requires [**ARC (Automatic Reference Counting)**](http://stackoverflow.c
 Add the following to the Podfile:
 
 ```ruby
-pod 'NetherSDK', :git => 'https://github.com/GIT_USER_ID/GIT_REPO_ID.git'
+pod 'NetherSDK', :git => 'https://github.com/MicrosoftDX/netherpod.git'
 ```
 
 To specify a particular branch, append `, :branch => 'branch-name-here'`

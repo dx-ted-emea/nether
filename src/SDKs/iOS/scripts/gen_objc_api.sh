@@ -5,7 +5,7 @@
 # license information.
 #
 . $(dirname $0)/common.inc
-gen_api objc "--config $defdir/objc_config.json"
+gen_api objc "--config $outdir/objc_config.json"
 exit 0
 #
 # Local Variables: 
