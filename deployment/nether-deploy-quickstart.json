@@ -1,93 +1,256 @@
 {
-    /*
-    * This is the "master" template used to provision the Azure resources for Nether.
-    *
-    * This leverages linked templates which requires that the templates it links to are available via a URL. By default, these 
-    * will be pulled from the same location as this template. But this can be overridden by specifying a location via the pull 
-    * them from by specifying the templateBaseURL parameter.
-    * 
-    * For more information, please refer to the Nether repository at: https://github.com/MicrosoftDX/nether/tree/master/deployment
-    */
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "initialNetherAdministratorPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "The initial password for the netheradmin user, sql server user, ..."
-            }
-        },
-        "templateBaseURL": {
-            "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/MicrosoftDX/nether/master/deployment/",
-            "metadata": {
-                "description": "The base location for all linked templates"
-            }
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "initialNetherAdministratorPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The initial password for the netheradmin user, sql server user, ..."
+      }
     },
-    "variables": {
-        "deploymentAPI": "2015-01-01",
-        "suffix": "[uniqueString(subscription().subscriptionId, resourceGroup().id)]",
-        "netherTemplateURI": "[uri(parameters('templateBaseURL'), 'nether-deploy.json')]",
-        "NetherWebDomainPrefix" : "[concat('netherweb', variables('suffix'))]",
-        "sqlServerName" : "[concat('nethersql', variables('suffix'))]",
-        "sqlAdministratorLogin" : "nethersqladmin",
-        "sqlAdministratorPassword" : "[parameters('initialNetherAdministratorPassword')]",
-        "analyticsEventHubNamespace": "[concat('nether', variables('suffix'))]",
-        "analyticsStorageAccountName": "[concat('nether', variables('suffix'))]"
+    "templateBaseURL": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/MicrosoftDX/nether/master/deployment/",
+      "metadata": {
+        "description": "The base location for all linked templates"
+      }
     },
-    "resources": [
-        {
-            "type": "Microsoft.Resources/deployments",
-            "name": "NetherDeployment",
-            "apiVersion": "[variables('deploymentAPI')]",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('netherTemplateURI')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "NetherWebDomainPrefix": {
-                        "value": "[variables('NetherWebDomainPrefix')]"
-                    },
-                    "initialNetherAdministratorPassword": {
-                        "value": "[parameters('initialNetherAdministratorPassword')]"
-                    },
-                    "sqlServerName": {
-                        "value": "[variables('sqlServerName')]"
-                    },
-                    "sqlAdministratorLogin": {
-                        "value": "[variables('sqlAdministratorLogin')]"
-                    },
-                    "sqlAdministratorPassword": {
-                        "value": "[variables('sqlAdministratorPassword')]"
-                    },
-                    "analyticsEventHubNamespace": {
-                        "value": "[variables('analyticsEventHubNamespace')]"
-                    },
-                    "analyticsStorageAccountName": {
-                        "value": "[variables('analyticsStorageAccountName')]"
-                    },
-                    "templateBaseURL": {
-                        "value": "[parameters('templateBaseURL')]"
-                    }
-                }
-            }
-        }
-    ],
-    "outputs": {
-        "WebSiteFQDN": {
-            "type": "string",
-            "value": "[reference('NetherDeployment').Outputs.WebSiteFQDN.value]"
-        },
-        "DatabaseServerFQDN": {
-            "type": "string",
-            "value": "[reference('NetherDeployment').Outputs.DatabaseServerFQDN.value]"
-        },
-        "DatabaseName": {
-            "type": "string",
-            "value": "[reference('NetherDeployment').Outputs.DatabaseName.value]"
-        }
+    "WebHostingPlan": {
+      "type": "string",
+      "defaultValue": "Free (no 'always on')",
+      "allowedValues": [
+        "Free (no 'always on')",
+        "Shared",
+        "Basic B1",
+        "Basic B2",
+        "Basic B3",
+        "Standard S1",
+        "Standard S2",
+        "Standard S3",
+        "Premium P1",
+        "Premium P2",
+        "Premium P3"
+      ],
+      "metadata": {
+        "description": "Specifies the database pricing/performance."
+      }
     }
+  },
+  "variables": {
+    "deploymentAPI": "2015-01-01",
+    "suffix": "[uniqueString(subscription().subscriptionId, resourceGroup().id)]",
+    "netherTemplateURI": "[uri(parameters('templateBaseURL'), 'nether-deploy.json')]",
+    "NetherWebDomainPrefix": "[concat('netherweb', variables('suffix'))]",
+    "sqlServerName": "[concat('nethersql', variables('suffix'))]",
+    "sqlAdministratorLogin": "nethersqladmin",
+    "sqlAdministratorPassword": "[parameters('initialNetherAdministratorPassword')]",
+    "analyticsEventHubNamespace": "[concat('nether', variables('suffix'))]",
+    "InstanceCount": 1,
+    "ManagePolicyName": "managePolicy",
+    "namespaceName": "[concat('nether', uniquestring(resourceGroup().id))]",
+    "ingestEventHub": "[concat('ingest', uniquestring(resourceGroup().id))]",
+    "intermediateEventHub": "[concat('intermidiate', uniquestring(resourceGroup().id))]",
+    "defaultSASKeyName": "RootManageSharedAccessKey",
+    "authRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), variables('defaultSASKeyName'))]",
+    "ehApiVersion": "2015-08-01",
+    "WebResourceAPI": "2015-08-01",
+    "hostingPlanName": "[concat('hostingPlan', uniquestring(resourceGroup().id))]",
+    "webSiteName": "[concat('site', uniquestring(resourceGroup().id))]",
+    "HostingSKUs": {
+      "Free (no 'always on')": {
+        "tier": "Free",
+        "size": "F1",
+        "enableAlwaysOn": false
+      },
+      "Shared": {
+        "tier": "Shared",
+        "size": "D1",
+        "enableAlwaysOn": true
+      },
+      "Basic B1": {
+        "tier": "Basic",
+        "size": "B1",
+        "enableAlwaysOn": true
+      },
+      "Basic B2": {
+        "tier": "Basic",
+        "size": "B2",
+        "enableAlwaysOn": true
+      },
+      "Basic B3": {
+        "tier": "Basic",
+        "size": "B3",
+        "enableAlwaysOn": true
+      },
+      "Standard S1": {
+        "tier": "Standard",
+        "size": "S1",
+        "enableAlwaysOn": true
+      },
+      "Standard S2": {
+        "tier": "Standard",
+        "size": "S2",
+        "enableAlwaysOn": true
+      },
+      "Standard S3": {
+        "tier": "Standard",
+        "size": "S3",
+        "enableAlwaysOn": true
+      },
+      "Premium P1": {
+        "tier": "Premium",
+        "size": "P1",
+        "enableAlwaysOn": true
+      },
+      "Premium P2": {
+        "tier": "Premium",
+        "size": "P2",
+        "enableAlwaysOn": true
+      },
+      "Premium S3": {
+        "tier": "Premium",
+        "size": "P3",
+        "enableAlwaysOn": true
+      }
+    },
+    "eventHubRef": "[concat('Microsoft.EventHub/namespaces/', variables('namespaceName'),'/eventhubs/',variables('intermediateEventHub'))]",
+    "consumerGroupName": "analytics",
+    "analyticsStorageAccountName": "[concat('nether', variables('suffix'))]"
+
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "NetherDeployment",
+      "apiVersion": "[variables('deploymentAPI')]",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('netherTemplateURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "NetherWebDomainPrefix": {
+            "value": "[variables('NetherWebDomainPrefix')]"
+          },
+          "initialNetherAdministratorPassword": {
+            "value": "[parameters('initialNetherAdministratorPassword')]"
+          },
+          "sqlServerName": {
+            "value": "[variables('sqlServerName')]"
+          },
+          "sqlAdministratorLogin": {
+            "value": "[variables('sqlAdministratorLogin')]"
+          },
+          "sqlAdministratorPassword": {
+            "value": "[variables('sqlAdministratorPassword')]"
+          },
+          "analyticsEventHubNamespace": {
+            "value": "[variables('analyticsEventHubNamespace')]"
+          },
+          "analyticsStorageAccountName": {
+            "value": "[variables('analyticsStorageAccountName')]"
+          },
+          "templateBaseURL": {
+            "value": "[parameters('templateBaseURL')]"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "name": "[variables('namespaceName')]",
+      "type": "Microsoft.EventHub/Namespaces",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "[variables('ingestEventHub')]",
+          "type": "EventHubs",
+          "dependsOn": [
+            "[concat('Microsoft.EventHub/namespaces/', variables('namespaceName'))]"
+          ],
+          "properties": {
+            "path": "[variables('ingestEventHub')]"
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "name": "[variables('intermediateEventHub')]",
+          "type": "EventHubs",
+          "dependsOn": [
+            "[concat('Microsoft.EventHub/namespaces/', variables('namespaceName'))]"
+          ],
+          "properties": {
+            "path": "[variables('intermediateEventHub')]"
+          },
+          "resources": [
+            {
+              "type": "authorizationRules",
+              "name": "[variables('ManagePolicyName')]",
+              "apiVersion": "[variables('ehApiVersion')]",
+              "dependsOn": [
+                "[variables('eventHubRef')]"
+              ],
+              "properties": {
+                "rights": [
+                  "Send",
+                  "Listen",
+                  "Manage"
+                ]
+              }
+            },
+            {
+              "type": "ConsumerGroups",
+              "name": "[variables('consumerGroupName')]",
+              "apiVersion": "[variables('ehApiVersion')]",
+              "dependsOn": [
+                "[variables('eventHubRef')]"
+              ],
+              "properties": {}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "outputs": {
+    "WebSiteFQDN": {
+      "type": "string",
+      "value": "[reference('NetherDeployment').Outputs.WebSiteFQDN.value]"
+    },
+    "DatabaseServerFQDN": {
+      "type": "string",
+      "value": "[reference('NetherDeployment').Outputs.DatabaseServerFQDN.value]"
+    },
+    "DatabaseName": {
+      "type": "string",
+      "value": "[reference('NetherDeployment').Outputs.DatabaseName.value]"
+    },
+    "serviceBusNamespace": {
+      "type": "string",
+      "value": "[variables('namespaceName')]"
+    },
+    "eventHubName": {
+      "type": "string",
+      "value": "[variables('intermediateEventHub')]"
+    },
+    "sharedAccessPolicyName": {
+      "type": "string",
+      "value": "[variables('ManagePolicyName')]"
+    },
+    "sharedAccessPolicyKey": {
+      "type": "string",
+      "value": "[listKeys(resourceId(concat('Microsoft.EventHub/namespaces/EventHubs/AuthorizationRules'),variables('namespaceName'),variables('intermediateEventHub'),variables('ManagePolicyName')),variables('ehApiVersion')).primaryKey]"
+    },
+    "consumerGroupName": {
+      "type": "string",
+      "value": "[variables('consumerGroupName')]"
+    }
+  }
 }
