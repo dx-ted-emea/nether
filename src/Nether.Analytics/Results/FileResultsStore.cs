@@ -24,7 +24,7 @@ namespace Nether.Analytics.Results
             return new FileResultsStoreQuery(this, pipeline);
         }
 
-        protected FileInfo GetLatest(string path, string searchPath)
+        protected FileInfo GetLatest(string path, string searchPattern)
         {
             if (String.IsNullOrEmpty(path) || String.IsNullOrEmpty(_rootLocation)) return null;
 
@@ -32,8 +32,12 @@ namespace Nether.Analytics.Results
 
             // we assume that the query already figured out the path *directly*
             // to the files, which means we can simply list all the files, order
-            // them by last write time, and be done with it
-            var lastFile = directory.GetFiles().OrderByDescending(x => x.LastWriteTimeUtc).FirstOrDefault();
+            // them by last write time, and be done with it. If it didn't, then
+            // it probably specified the search pattern, so we can use that
+            var files = String.IsNullOrEmpty(searchPattern) ? 
+                directory.GetFiles() : directory.GetFiles(searchPattern);
+
+            var lastFile = files.OrderByDescending(x => x.LastWriteTimeUtc).FirstOrDefault();
             return lastFile;
         }
 
@@ -55,9 +59,15 @@ namespace Nether.Analytics.Results
 
             public IResultSet Latest()
             {
-                // for the moment, we assume the pipeline specified the 
-                // path, and we can pass it directly
-                var fi = _store.GetLatest(_pipeline);
+                // TODO: remove this code, once we've established the naming is what
+                // we expect.
+
+                //// for the moment, we assume the pipeline specified the 
+                //// path, and we can pass it directly
+                //var fi = _store.GetLatest(_pipeline, null);
+
+                var fi = _store.GetLatest(System.IO.Path.DirectorySeparatorChar.ToString(), 
+                    GenerateFileSearchPattern(_pipeline, null));
 
                 if (fi == null)
                 {
@@ -65,6 +75,16 @@ namespace Nether.Analytics.Results
                 }
 
                 return new FileResultSet(new FileInfo[] { fi });
+            }
+            
+            private string GenerateFileSearchPattern(string name, DateTime? dateTime)
+            {
+                if(dateTime.HasValue)
+                {
+                    throw new NotImplementedException();
+                }
+
+                return $"{name}_*";
             }
 
             
