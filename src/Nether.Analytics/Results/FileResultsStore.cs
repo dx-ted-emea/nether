@@ -15,13 +15,13 @@ namespace Nether.Analytics.Results
             this._rootLocation = rootLocation;
         }
 
-        public IResultsQuery For(string pipeline)
+        public IResultsQuery For(string jobName)
         {
             // this method exists, to make querying the same store, but
-            // for different pipelines, easy-ish. Hence we create a query
+            // for different jobs, easy-ish. Hence we create a query
             // object and configure it based on the parameters.
             // TODO: maybe do checking that pipeline is supported?
-            return new FileResultsStoreQuery(this, pipeline);
+            return new FileResultsStoreQuery(this, jobName);
         }
 
         protected FileInfo GetLatest(string path, string searchPattern)
@@ -44,12 +44,12 @@ namespace Nether.Analytics.Results
         private class FileResultsStoreQuery : IResultsQuery
         {
             private FileResultsStore _store;
-            private string _pipeline;
+            private string _jobName;
 
-            public FileResultsStoreQuery(FileResultsStore store, string pipeline)
+            public FileResultsStoreQuery(FileResultsStore store, string jobName)
             {
                 this._store = store;
-                this._pipeline = pipeline;
+                this._jobName = jobName;
             }
 
             public IResultSet Between(DateTime start, DateTime end)
@@ -67,7 +67,7 @@ namespace Nether.Analytics.Results
                 //var fi = _store.GetLatest(_pipeline, null);
 
                 var fi = _store.GetLatest(String.Empty, 
-                    GenerateFileSearchPattern(_pipeline, null));
+                    GenerateFileSearchPattern(_jobName, null));
 
                 if (fi == null)
                 {
