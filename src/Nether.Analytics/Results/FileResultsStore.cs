@@ -66,7 +66,7 @@ namespace Nether.Analytics.Results
                 //// path, and we can pass it directly
                 //var fi = _store.GetLatest(_pipeline, null);
 
-                var fi = _store.GetLatest(System.IO.Path.DirectorySeparatorChar.ToString(), 
+                var fi = _store.GetLatest(String.Empty, 
                     GenerateFileSearchPattern(_pipeline, null));
 
                 if (fi == null)
