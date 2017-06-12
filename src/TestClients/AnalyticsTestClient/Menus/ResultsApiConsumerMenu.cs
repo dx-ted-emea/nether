@@ -29,7 +29,6 @@ namespace AnalyticsTestClient
 
             private void GetResults(IMessageFormatter formatter, string pipeline, string messageType)
             {
-               
             }
 
             private DateTime? GetDate(string type)
@@ -56,7 +55,7 @@ namespace AnalyticsTestClient
             public ResultsFileSystemMenu()
             {
                 Title = "Latest Results (FS)";
-                
+
                 MenuItems.Add('1', new ConsoleMenuItem("DAU", () => GetLatestFromFileSystem("dau")));
                 MenuItems.Add('2', new ConsoleMenuItem("Clustering", () => GetLatestFromFileSystem("cluster")));
             }

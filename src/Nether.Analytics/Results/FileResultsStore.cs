@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +15,7 @@ namespace Nether.Analytics.Results
 
         public FileResultsStore(string rootLocation)
         {
-            this._rootLocation = rootLocation;
+            _rootLocation = rootLocation;
         }
 
         public IResultsQuery For(string jobName)
@@ -34,7 +37,7 @@ namespace Nether.Analytics.Results
             // to the files, which means we can simply list all the files, order
             // them by last write time, and be done with it. If it didn't, then
             // it probably specified the search pattern, so we can use that
-            var files = String.IsNullOrEmpty(searchPattern) ? 
+            var files = String.IsNullOrEmpty(searchPattern) ?
                 directory.GetFiles() : directory.GetFiles(searchPattern);
 
             var lastFile = files.OrderByDescending(x => x.LastWriteTimeUtc).FirstOrDefault();
@@ -48,8 +51,8 @@ namespace Nether.Analytics.Results
 
             public FileResultsStoreQuery(FileResultsStore store, string jobName)
             {
-                this._store = store;
-                this._jobName = jobName;
+                _store = store;
+                _jobName = jobName;
             }
 
             public IResultSet Between(DateTime start, DateTime end)
@@ -66,7 +69,7 @@ namespace Nether.Analytics.Results
                 //// path, and we can pass it directly
                 //var fi = _store.GetLatest(_pipeline, null);
 
-                var fi = _store.GetLatest(String.Empty, 
+                var fi = _store.GetLatest(String.Empty,
                     GenerateFileSearchPattern(_jobName, null));
 
                 if (fi == null)
@@ -76,10 +79,10 @@ namespace Nether.Analytics.Results
 
                 return new FileResultSet(new FileInfo[] { fi });
             }
-            
+
             private string GenerateFileSearchPattern(string name, DateTime? dateTime)
             {
-                if(dateTime.HasValue)
+                if (dateTime.HasValue)
                 {
                     throw new NotImplementedException();
                 }
@@ -87,7 +90,7 @@ namespace Nether.Analytics.Results
                 return $"{name}_*";
             }
 
-            
+
 
             private class FileResultSet : IResultSet
             {
@@ -96,19 +99,19 @@ namespace Nether.Analytics.Results
                 public FileResultSet()
                 {
                     // this is basically an empty set, but we can still deal with it
-                    this._files = new FileInfo[0];
+                    _files = new FileInfo[0];
                 }
 
                 public FileResultSet(FileInfo[] files)
                 {
-                    this._files = files;
+                    _files = files;
                 }
 
                 public string AsText()
                 {
                     var stringBuilder = new StringBuilder();
 
-                    foreach (var file in this._files)
+                    foreach (var file in _files)
                     {
                         // TODO: verify this assumption, of concating the files
                         // with a new line... it might not be the right thing always

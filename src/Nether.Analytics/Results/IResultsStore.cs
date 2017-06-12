@@ -1,4 +1,7 @@
-﻿namespace Nether.Analytics.Results
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+namespace Nether.Analytics.Results
 {
     /// <summary>
     /// Defines the interface for communicating with the results store. 
