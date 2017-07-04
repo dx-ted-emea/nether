@@ -11,6 +11,7 @@ src/Nether.Analytics.Cosmos
 src/Nether.Analytics.DataLake
 src/Nether.Analytics.EventHubs
 src/Nether.Analytics.GeoLocation
+src/Nether.Analytics.SqlDatabase
 src/Nether.Analytics.Host
 src/Nether.Analytics.PowerBI
 

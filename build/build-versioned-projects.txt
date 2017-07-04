@@ -6,3 +6,4 @@ src/Nether.Analytics.EventHubs
 src/Nether.Analytics.GeoLocation
 src/Nether.Analytics.MessageFormats
 src/Nether.Analytics.PowerBI
+src/Nether.Analytics.SqlDatabase
