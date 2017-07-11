@@ -39,53 +39,53 @@ pod 'NetherSDK', :path => 'Vendor/NetherSDK'
 Import the following:
 
 ```objc
-#import <NetherSDK/ApiClient.h>
-#import <NetherSDK/DefaultConfiguration.h>
+#import <NetherSDK/SWGApiClient.h>
+#import <NetherSDK/SWGDefaultConfiguration.h>
 // load models
-#import <NetherSDK/NetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserLoginUserLoginListModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserLoginUserLoginModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserListModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserLoginModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserRequestModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesIdentityModelsUserUserSummaryModel.h>
-#import <NetherSDK/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry.h>
-#import <NetherSDK/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel.h>
-#import <NetherSDK/NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry.h>
-#import <NetherSDK/NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginListModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserListModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserLoginModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesIdentityModelsUserUserSummaryModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry.h>
+#import <NetherSDK/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry.h>
+#import <NetherSDK/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel.h>
 // load API classes for accessing endpoints
-#import <NetherSDK/AnalyticsApi.h>
-#import <NetherSDK/EndpointApi.h>
-#import <NetherSDK/IdentityTestApi.h>
-#import <NetherSDK/LeaderboardApi.h>
-#import <NetherSDK/PlayerApi.h>
-#import <NetherSDK/PlayerAdminApi.h>
-#import <NetherSDK/ScoreApi.h>
-#import <NetherSDK/UserApi.h>
-#import <NetherSDK/UserLoginApi.h>
+#import <NetherSDK/SWGAnalyticsApi.h>
+#import <NetherSDK/SWGEndpointApi.h>
+#import <NetherSDK/SWGIdentityTestApi.h>
+#import <NetherSDK/SWGLeaderboardApi.h>
+#import <NetherSDK/SWGPlayerApi.h>
+#import <NetherSDK/SWGPlayerAdminApi.h>
+#import <NetherSDK/SWGScoreApi.h>
+#import <NetherSDK/SWGUserApi.h>
+#import <NetherSDK/SWGUserLoginApi.h>
 
 ```
 
@@ -99,17 +99,17 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```objc
 
-DefaultConfiguration *apiConfig = [DefaultConfiguration sharedConfig];
+SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
 // Configure OAuth2 access token for authorization: (authentication scheme: oauth2)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
 
-AnalyticsApi *apiInstance = [[AnalyticsApi alloc] init];
+SWGAnalyticsApi *apiInstance = [[SWGAnalyticsApi alloc] init];
 
 [apiInstance analyticsActiveSessionsDailyGetWithCompletionHandler: 
-              ^(NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel* output, NSError* error) {
+              ^(SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel* output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -126,84 +126,84 @@ All URIs are relative to *https://localhost/api*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnalyticsApi* | [**analyticsActiveSessionsDailyGet**](docs/AnalyticsApi.md#analyticsactivesessionsdailyget) | **GET** /analytics/active-sessions/daily | 
-*AnalyticsApi* | [**analyticsActiveSessionsMonthlyGet**](docs/AnalyticsApi.md#analyticsactivesessionsmonthlyget) | **GET** /analytics/active-sessions/monthly | 
-*AnalyticsApi* | [**analyticsActiveSessionsYearlyGet**](docs/AnalyticsApi.md#analyticsactivesessionsyearlyget) | **GET** /analytics/active-sessions/yearly | 
-*AnalyticsApi* | [**analyticsActiveUsersDailyGet**](docs/AnalyticsApi.md#analyticsactiveusersdailyget) | **GET** /analytics/active-users/daily | 
-*AnalyticsApi* | [**analyticsActiveUsersMonthlyGet**](docs/AnalyticsApi.md#analyticsactiveusersmonthlyget) | **GET** /analytics/active-users/monthly | 
-*AnalyticsApi* | [**analyticsActiveUsersYearlyGet**](docs/AnalyticsApi.md#analyticsactiveusersyearlyget) | **GET** /analytics/active-users/yearly | 
-*AnalyticsApi* | [**analyticsDurationsByNameDailyGet**](docs/AnalyticsApi.md#analyticsdurationsbynamedailyget) | **GET** /analytics/durations/{name}/daily | 
-*AnalyticsApi* | [**analyticsDurationsByNameMonthlyGet**](docs/AnalyticsApi.md#analyticsdurationsbynamemonthlyget) | **GET** /analytics/durations/{name}/monthly | 
-*AnalyticsApi* | [**analyticsDurationsByNameYearlyGet**](docs/AnalyticsApi.md#analyticsdurationsbynameyearlyget) | **GET** /analytics/durations/{name}/yearly | 
-*AnalyticsApi* | [**analyticsGameDurationsDailyGet**](docs/AnalyticsApi.md#analyticsgamedurationsdailyget) | **GET** /analytics/game-durations/daily | 
-*AnalyticsApi* | [**analyticsGameDurationsMonthlyGet**](docs/AnalyticsApi.md#analyticsgamedurationsmonthlyget) | **GET** /analytics/game-durations/monthly | 
-*AnalyticsApi* | [**analyticsGameDurationsYearlyGet**](docs/AnalyticsApi.md#analyticsgamedurationsyearlyget) | **GET** /analytics/game-durations/yearly | 
-*AnalyticsApi* | [**analyticsLevelDropOffsDailyGet**](docs/AnalyticsApi.md#analyticsleveldropoffsdailyget) | **GET** /analytics/level-drop-offs/daily | 
-*AnalyticsApi* | [**analyticsLevelDropOffsMonthlyGet**](docs/AnalyticsApi.md#analyticsleveldropoffsmonthlyget) | **GET** /analytics/level-drop-offs/monthly | 
-*AnalyticsApi* | [**analyticsLevelDropOffsYearlyGet**](docs/AnalyticsApi.md#analyticsleveldropoffsyearlyget) | **GET** /analytics/level-drop-offs/yearly | 
-*EndpointApi* | [**endpointGet**](docs/EndpointApi.md#endpointget) | **GET** /endpoint | 
-*IdentityTestApi* | [**identityTestGet**](docs/IdentityTestApi.md#identitytestget) | **GET** /identity-test | 
-*LeaderboardApi* | [**leaderboardsByNameGet**](docs/LeaderboardApi.md#leaderboardsbynameget) | **GET** /leaderboards/{name} | Gets leaderboard by leaderboard configured name
-*LeaderboardApi* | [**leaderboardsGet**](docs/LeaderboardApi.md#leaderboardsget) | **GET** /leaderboards | Gets leaderboard by leaderboard configured name
-*PlayerApi* | [**playerDelete**](docs/PlayerApi.md#playerdelete) | **DELETE** /player | Deletes the player information for the currently logged in user
-*PlayerApi* | [**playerGet**](docs/PlayerApi.md#playerget) | **GET** /player | Gets the player information from currently logged in user
-*PlayerApi* | [**playerPut**](docs/PlayerApi.md#playerput) | **PUT** /player | Updates information about the current player
-*PlayerApi* | [**playerStateGet**](docs/PlayerApi.md#playerstateget) | **GET** /player/state | Gets the player state for the current player
-*PlayerApi* | [**playerStatePut**](docs/PlayerApi.md#playerstateput) | **PUT** /player/state | Updates state for the current player
-*PlayerAdminApi* | [**adminPlayersByGamertagGet**](docs/PlayerAdminApi.md#adminplayersbygamertagget) | **GET** /admin/players/{gamertag} | Gets player information by player&#39;s gamer tag. You have to be an administrator to perform this action.
-*PlayerAdminApi* | [**adminPlayersByGamertagPut**](docs/PlayerAdminApi.md#adminplayersbygamertagput) | **PUT** /admin/players/{gamertag} | Updates a player. You have to be an administrator to perform this action.
-*PlayerAdminApi* | [**adminPlayersByGamertagStateGet**](docs/PlayerAdminApi.md#adminplayersbygamertagstateget) | **GET** /admin/players/{gamertag}/state | Gets player state. You have to be an administrator to perform this action.
-*PlayerAdminApi* | [**adminPlayersByGamertagStatePut**](docs/PlayerAdminApi.md#adminplayersbygamertagstateput) | **PUT** /admin/players/{gamertag}/state | Set player state. You have to be an administrator to perform this action.
-*PlayerAdminApi* | [**adminPlayersGet**](docs/PlayerAdminApi.md#adminplayersget) | **GET** /admin/players | Gets all players
-*PlayerAdminApi* | [**adminPlayersPost**](docs/PlayerAdminApi.md#adminplayerspost) | **POST** /admin/players | Creates a player. You have to be an administrator to perform this action.
-*ScoreApi* | [**scoresDelete**](docs/ScoreApi.md#scoresdelete) | **DELETE** /scores | Deletes all score achievements for the logged in user
-*ScoreApi* | [**scoresPost**](docs/ScoreApi.md#scorespost) | **POST** /scores | Posts a new score of currently logged in player
-*UserApi* | [**identityUsersByUserIdDelete**](docs/UserApi.md#identityusersbyuseriddelete) | **DELETE** /identity/users/{userId} | Deletes the specified user
-*UserApi* | [**identityUsersByUserIdGet**](docs/UserApi.md#identityusersbyuseridget) | **GET** /identity/users/{userId} | Get user and logins information for a user
-*UserApi* | [**identityUsersByUserIdPut**](docs/UserApi.md#identityusersbyuseridput) | **PUT** /identity/users/{userId} | Update the user and logins for a user
-*UserApi* | [**identityUsersGet**](docs/UserApi.md#identityusersget) | **GET** /identity/users | Return a list of users
-*UserApi* | [**identityUsersPost**](docs/UserApi.md#identityuserspost) | **POST** /identity/users | Add a new user
-*UserLoginApi* | [**identityUsersByUserIdLoginsByProviderTypeByProviderIdDelete**](docs/UserLoginApi.md#identityusersbyuseridloginsbyprovidertypebyprovideriddelete) | **DELETE** /identity/users/{userId}/logins/{providerType}/{providerId} | Deletes the specified login for the user
-*UserLoginApi* | [**identityUsersByUserIdLoginsByProviderTypeByProviderIdPut**](docs/UserLoginApi.md#identityusersbyuseridloginsbyprovidertypebyprovideridput) | **PUT** /identity/users/{userId}/logins/{providerType}/{providerId} | Update the user and logins for a user
-*UserLoginApi* | [**identityUsersByUserIdLoginsGet**](docs/UserLoginApi.md#identityusersbyuseridloginsget) | **GET** /identity/users/{userId}/logins | Return a list of logins for the specified user
+*SWGAnalyticsApi* | [**analyticsActiveSessionsDailyGet**](docs/SWGAnalyticsApi.md#analyticsactivesessionsdailyget) | **GET** /analytics/active-sessions/daily | 
+*SWGAnalyticsApi* | [**analyticsActiveSessionsMonthlyGet**](docs/SWGAnalyticsApi.md#analyticsactivesessionsmonthlyget) | **GET** /analytics/active-sessions/monthly | 
+*SWGAnalyticsApi* | [**analyticsActiveSessionsYearlyGet**](docs/SWGAnalyticsApi.md#analyticsactivesessionsyearlyget) | **GET** /analytics/active-sessions/yearly | 
+*SWGAnalyticsApi* | [**analyticsActiveUsersDailyGet**](docs/SWGAnalyticsApi.md#analyticsactiveusersdailyget) | **GET** /analytics/active-users/daily | 
+*SWGAnalyticsApi* | [**analyticsActiveUsersMonthlyGet**](docs/SWGAnalyticsApi.md#analyticsactiveusersmonthlyget) | **GET** /analytics/active-users/monthly | 
+*SWGAnalyticsApi* | [**analyticsActiveUsersYearlyGet**](docs/SWGAnalyticsApi.md#analyticsactiveusersyearlyget) | **GET** /analytics/active-users/yearly | 
+*SWGAnalyticsApi* | [**analyticsDurationsByNameDailyGet**](docs/SWGAnalyticsApi.md#analyticsdurationsbynamedailyget) | **GET** /analytics/durations/{name}/daily | 
+*SWGAnalyticsApi* | [**analyticsDurationsByNameMonthlyGet**](docs/SWGAnalyticsApi.md#analyticsdurationsbynamemonthlyget) | **GET** /analytics/durations/{name}/monthly | 
+*SWGAnalyticsApi* | [**analyticsDurationsByNameYearlyGet**](docs/SWGAnalyticsApi.md#analyticsdurationsbynameyearlyget) | **GET** /analytics/durations/{name}/yearly | 
+*SWGAnalyticsApi* | [**analyticsGameDurationsDailyGet**](docs/SWGAnalyticsApi.md#analyticsgamedurationsdailyget) | **GET** /analytics/game-durations/daily | 
+*SWGAnalyticsApi* | [**analyticsGameDurationsMonthlyGet**](docs/SWGAnalyticsApi.md#analyticsgamedurationsmonthlyget) | **GET** /analytics/game-durations/monthly | 
+*SWGAnalyticsApi* | [**analyticsGameDurationsYearlyGet**](docs/SWGAnalyticsApi.md#analyticsgamedurationsyearlyget) | **GET** /analytics/game-durations/yearly | 
+*SWGAnalyticsApi* | [**analyticsLevelDropOffsDailyGet**](docs/SWGAnalyticsApi.md#analyticsleveldropoffsdailyget) | **GET** /analytics/level-drop-offs/daily | 
+*SWGAnalyticsApi* | [**analyticsLevelDropOffsMonthlyGet**](docs/SWGAnalyticsApi.md#analyticsleveldropoffsmonthlyget) | **GET** /analytics/level-drop-offs/monthly | 
+*SWGAnalyticsApi* | [**analyticsLevelDropOffsYearlyGet**](docs/SWGAnalyticsApi.md#analyticsleveldropoffsyearlyget) | **GET** /analytics/level-drop-offs/yearly | 
+*SWGEndpointApi* | [**endpointGet**](docs/SWGEndpointApi.md#endpointget) | **GET** /endpoint | 
+*SWGIdentityTestApi* | [**identityTestGet**](docs/SWGIdentityTestApi.md#identitytestget) | **GET** /identity-test | 
+*SWGLeaderboardApi* | [**leaderboardsByNameGet**](docs/SWGLeaderboardApi.md#leaderboardsbynameget) | **GET** /leaderboards/{name} | Gets leaderboard by leaderboard configured name
+*SWGLeaderboardApi* | [**leaderboardsGet**](docs/SWGLeaderboardApi.md#leaderboardsget) | **GET** /leaderboards | Gets leaderboard by leaderboard configured name
+*SWGPlayerApi* | [**playerDelete**](docs/SWGPlayerApi.md#playerdelete) | **DELETE** /player | Deletes the player information for the currently logged in user
+*SWGPlayerApi* | [**playerGet**](docs/SWGPlayerApi.md#playerget) | **GET** /player | Gets the player information from currently logged in user
+*SWGPlayerApi* | [**playerPut**](docs/SWGPlayerApi.md#playerput) | **PUT** /player | Updates information about the current player
+*SWGPlayerApi* | [**playerStateGet**](docs/SWGPlayerApi.md#playerstateget) | **GET** /player/state | Gets the player state for the current player
+*SWGPlayerApi* | [**playerStatePut**](docs/SWGPlayerApi.md#playerstateput) | **PUT** /player/state | Updates state for the current player
+*SWGPlayerAdminApi* | [**adminPlayersByGamertagGet**](docs/SWGPlayerAdminApi.md#adminplayersbygamertagget) | **GET** /admin/players/{gamertag} | Gets player information by player&#39;s gamer tag. You have to be an administrator to perform this action.
+*SWGPlayerAdminApi* | [**adminPlayersByGamertagPut**](docs/SWGPlayerAdminApi.md#adminplayersbygamertagput) | **PUT** /admin/players/{gamertag} | Updates a player. You have to be an administrator to perform this action.
+*SWGPlayerAdminApi* | [**adminPlayersByGamertagStateGet**](docs/SWGPlayerAdminApi.md#adminplayersbygamertagstateget) | **GET** /admin/players/{gamertag}/state | Gets player state. You have to be an administrator to perform this action.
+*SWGPlayerAdminApi* | [**adminPlayersByGamertagStatePut**](docs/SWGPlayerAdminApi.md#adminplayersbygamertagstateput) | **PUT** /admin/players/{gamertag}/state | Set player state. You have to be an administrator to perform this action.
+*SWGPlayerAdminApi* | [**adminPlayersGet**](docs/SWGPlayerAdminApi.md#adminplayersget) | **GET** /admin/players | Gets all players
+*SWGPlayerAdminApi* | [**adminPlayersPost**](docs/SWGPlayerAdminApi.md#adminplayerspost) | **POST** /admin/players | Creates a player. You have to be an administrator to perform this action.
+*SWGScoreApi* | [**scoresDelete**](docs/SWGScoreApi.md#scoresdelete) | **DELETE** /scores | Deletes all score achievements for the logged in user
+*SWGScoreApi* | [**scoresPost**](docs/SWGScoreApi.md#scorespost) | **POST** /scores | Posts a new score of currently logged in player
+*SWGUserApi* | [**identityUsersByUserIdDelete**](docs/SWGUserApi.md#identityusersbyuseriddelete) | **DELETE** /identity/users/{userId} | Deletes the specified user
+*SWGUserApi* | [**identityUsersByUserIdGet**](docs/SWGUserApi.md#identityusersbyuseridget) | **GET** /identity/users/{userId} | Get user and logins information for a user
+*SWGUserApi* | [**identityUsersByUserIdPut**](docs/SWGUserApi.md#identityusersbyuseridput) | **PUT** /identity/users/{userId} | Update the user and logins for a user
+*SWGUserApi* | [**identityUsersGet**](docs/SWGUserApi.md#identityusersget) | **GET** /identity/users | Return a list of users
+*SWGUserApi* | [**identityUsersPost**](docs/SWGUserApi.md#identityuserspost) | **POST** /identity/users | Add a new user
+*SWGUserLoginApi* | [**identityUsersByUserIdLoginsByProviderTypeByProviderIdDelete**](docs/SWGUserLoginApi.md#identityusersbyuseridloginsbyprovidertypebyprovideriddelete) | **DELETE** /identity/users/{userId}/logins/{providerType}/{providerId} | Deletes the specified login for the user
+*SWGUserLoginApi* | [**identityUsersByUserIdLoginsByProviderTypeByProviderIdPut**](docs/SWGUserLoginApi.md#identityusersbyuseridloginsbyprovidertypebyprovideridput) | **PUT** /identity/users/{userId}/logins/{providerType}/{providerId} | Update the user and logins for a user
+*SWGUserLoginApi* | [**identityUsersByUserIdLoginsGet**](docs/SWGUserLoginApi.md#identityusersbyuseridloginsget) | **GET** /identity/users/{userId}/logins | Return a list of logins for the specified user
 
 
 ## Documentation For Models
 
- - [NetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel](docs/NetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel.md)
- - [NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel](docs/NetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel.md)
- - [NetherWebFeaturesIdentityModelsUserLoginUserLoginListModel](docs/NetherWebFeaturesIdentityModelsUserLoginUserLoginListModel.md)
- - [NetherWebFeaturesIdentityModelsUserLoginUserLoginModel](docs/NetherWebFeaturesIdentityModelsUserLoginUserLoginModel.md)
- - [NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel](docs/NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserListModel](docs/NetherWebFeaturesIdentityModelsUserUserListModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserLoginModel](docs/NetherWebFeaturesIdentityModelsUserUserLoginModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserModel](docs/NetherWebFeaturesIdentityModelsUserUserModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserRequestModel](docs/NetherWebFeaturesIdentityModelsUserUserRequestModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserResponseModel](docs/NetherWebFeaturesIdentityModelsUserUserResponseModel.md)
- - [NetherWebFeaturesIdentityModelsUserUserSummaryModel](docs/NetherWebFeaturesIdentityModelsUserUserSummaryModel.md)
- - [NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel](docs/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel.md)
- - [NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry](docs/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry.md)
- - [NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel](docs/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel.md)
- - [NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel](docs/NetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel.md)
- - [NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel](docs/NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry](docs/NetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry.md)
- - [NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel](docs/NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel.md)
+ - [SWGNetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel](docs/SWGNetherWebFeaturesAnalyticsAnalyticsEndpointInfoResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsListResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveSessionsResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersListResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsActiveUsersResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsListResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsDurationsResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsListResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsGameDurationsResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffListResponseModel.md)
+ - [SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel](docs/SWGNetherWebFeaturesAnalyticsModelsAnalyticsLevelDropOffResponseModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginListModel](docs/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginListModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginModel](docs/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel](docs/SWGNetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserListModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserListModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserLoginModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserLoginModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserRequestModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserRequestModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserResponseModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserResponseModel.md)
+ - [SWGNetherWebFeaturesIdentityModelsUserUserSummaryModel](docs/SWGNetherWebFeaturesIdentityModelsUserUserSummaryModel.md)
+ - [SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel](docs/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModel.md)
+ - [SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry](docs/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardGetResponseModelLeaderboardEntry.md)
+ - [SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel](docs/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModel.md)
+ - [SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel](docs/SWGNetherWebFeaturesLeaderboardModelsLeaderboardLeaderboardListResponseModelLeaderboardSummaryModel.md)
+ - [SWGNetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel](docs/SWGNetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerGetResponseModelPlayerEntry.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerListGetResponseModelPlayersEntry.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModel.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerGetResponseModelPlayerEntry.md)
+ - [SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel](docs/SWGNetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel.md)
 
 
 ## Documentation For Authorization

@@ -3,3 +3,4 @@ build_dir/
 .swagger-codegen-ignore
 .DS_Store
 TestClient/
+netherpod/
