@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
  **userId** | **NSString***| The id of the user to update | 
  **providerType** | **NSString***| The type of login provider | 
  **providerId** | **NSString***| The provider specific id for the login | 
- **userLoginModel** | [**NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel***](NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel*.md)| Any additional parameters required by the provider | [optional] 
+ **userLoginModel** | [**NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel***](NetherWebFeaturesIdentityModelsUserLoginUserLoginRequestModel.md)| Any additional parameters required by the provider | [optional] 
 
 ### Return type
 

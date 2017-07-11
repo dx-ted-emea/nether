@@ -87,7 +87,7 @@ ScoreApi*apiInstance = [[ScoreApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel***](NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel*.md)| Achieved score, must be positive | [optional] 
+ **request** | [**NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel***](NetherWebFeaturesLeaderboardModelsScoreScorePostRequestModel.md)| Achieved score, must be positive | [optional] 
 
 ### Return type
 

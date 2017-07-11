@@ -139,7 +139,7 @@ PlayerApi*apiInstance = [[PlayerApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **player** | [**NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel*.md)| Player data | [optional] 
+ **player** | [**NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerPlayerPutRequestModel.md)| Player data | [optional] 
 
 ### Return type
 

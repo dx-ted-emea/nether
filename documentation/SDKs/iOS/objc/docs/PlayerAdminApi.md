@@ -102,7 +102,7 @@ PlayerAdminApi*apiInstance = [[PlayerAdminApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **gamertag** | **NSString***| The gamertag | 
- **varNewPlayer** | [**NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel*.md)| Player data | [optional] 
+ **varNewPlayer** | [**NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPutRequestModel.md)| Player data | [optional] 
 
 ### Return type
 
@@ -308,7 +308,7 @@ PlayerAdminApi*apiInstance = [[PlayerAdminApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **varNewPlayer** | [**NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel*.md)| Player data | [optional] 
+ **varNewPlayer** | [**NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel***](NetherWebFeaturesPlayerManagementModelsPlayerAdminPlayerPostRequestModel.md)| Player data | [optional] 
 
 ### Return type
 

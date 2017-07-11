@@ -154,7 +154,7 @@ UserApi*apiInstance = [[UserApi alloc] init];
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **userId** | **NSString***| The id of the user to update | 
- **userModel** | [**NetherWebFeaturesIdentityModelsUserUserRequestModel***](NetherWebFeaturesIdentityModelsUserUserRequestModel*.md)| The new user and logins details for the user | [optional] 
+ **userModel** | [**NetherWebFeaturesIdentityModelsUserUserRequestModel***](NetherWebFeaturesIdentityModelsUserUserRequestModel.md)| The new user and logins details for the user | [optional] 
 
 ### Return type
 
@@ -253,7 +253,7 @@ UserApi*apiInstance = [[UserApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userModel** | [**NetherWebFeaturesIdentityModelsUserUserRequestModel***](NetherWebFeaturesIdentityModelsUserUserRequestModel*.md)| The new user and login details for the user (including user id) | [optional] 
+ **userModel** | [**NetherWebFeaturesIdentityModelsUserUserRequestModel***](NetherWebFeaturesIdentityModelsUserUserRequestModel.md)| The new user and login details for the user (including user id) | [optional] 
 
 ### Return type
 
