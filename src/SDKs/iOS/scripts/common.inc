@@ -142,17 +142,26 @@ EOF
 sdkdir=$(dirname $0)/..
 pushd "$sdkdir" >/dev/null
 [ $? -eq 0 ] || exit_with_error "Cannot change to $sdkdir"
-sdkdir=$(pwd)
+sdkdir=$(pwd -P)
 popd >/dev/null
 mydir=${sdkdir}/scripts
 [ -d "$mydir" ] || exit_with_error "Directory $mydir not found."
-
 outdir=$sdkdir/build_dir
 mkdir -p "$outdir" 2>/dev/null
 [ -d "$outdir" ] || exit_with_error "Directory $outdir not found."
 
 defdir=${sdkdir}/defs
 [ -d "$defdir" ] || exit_with_error "Directory $defdir not found."
+[ -f "${defdir}/product" ] && . "${defdir}/product"
+[ -n "$POD_NAME" ] || exit_with_error "POD_NAME not defined in ${defdir}/product"
+[ -n "$POD_GIT" ] || exit_with_error "POD_GIT not defined in ${defdir}/product"
+[ -n "$POD_VERSION" ] || exit_with_error "POD_VERSION not defined in ${defdir}/product"
+[ -n "$POD_LANG" ] || exit_with_error "POD_LANG not defined in ${defdir}/product"
+poddir=${sdkdir}/${POD_GIT}
+
+bldfile=${sdkdir}/.build
+build_nr=0
+[ -f "$bldfile" ] && build_nr=$(cat "$bldfile")
 
 pushd $(dirname $0)/../../../../documentation/SDKs/iOS >/dev/null
 [ $? -eq 0 ] || exit_with_error "Error in directory structure. Verify your git checkout"
@@ -208,17 +217,48 @@ ensure_software_exists() {
     [ $? -eq 0 ] || inform_about_missing_software "$@"
 }
 
+post_process() {
+    local q='"'
+    local f
+    local license
+    local license_url
+    local contact
+    local contact_email
+    [ $# -eq 1 ] || exit_with_error "$FUNCNAME: Expecting filename as argument."
+    f=$1
+    [ -f "$f" ] || exit_with_error "$FUNCNAME: file $f not found."
+    license=$(jq .info.license.name < "$api_file")
+    license_url=$(jq .info.license.url < "$api_file")
+    contact=$(jq .info.contact.name < "$api_file")
+    contact_email=$(jq .info.contact.email < "$api_file")
+    nth_trace "contact=$contact, email=$contact_email, license=$license"
+    #if [ -n "$contact" -a -n "$contact_email" ]; then
+	#sed -i -e "s/s.author.*$/s.author       = { $contact => $contact_email }/g" $f
+    #fi
+    if [ -n "$license" ]; then
+	sed -i -e "s/s.license.*$/s.license      = $license/g" $f
+    fi
+}
+
 gen_api() {
-    local lang="$1"
-    local opts="$2"
-    local args="generate $opts -D license=MIT --api-package Nether -i $api_file  -l $lang -o $outdir/nether-${lang}-api/"
+    local lang=$1
+    local name=NetherSDK
+    local args="generate $opts -D version=v0.1 --api-package Nether -i $api_file  -l $lang -o ${poddir}/"
+    local q='"'
 
     [ -r "$api_file" ] || exit_with_error "$api_file not found. Please run script to generate it"
- 
-    rm -rf $outdir/nether-${lang}-api/docs
-    rm -rf $outdir/nether-${lang}-api/NetherSDK
-    java -DappName=NetherClient -jar "$outdir/swagger-codegen-cli.jar" $args
-
+    if [ -f "$outdir/${lang}_config.json" ]; then
+	args="$args --config $outdir/${lang}_config.json"
+	q=$(jq .podName < "$outdir/${lang}_config.json" | tr -d '"')
+	[ -n "$q" ] && name=$q
+    fi  
+    rm -rf $poddir/docs
+    rm -rf $poddir/${name}
+    nth_trace "Calling swagger-codegen $args"
+    java -DappName=NetherClient -jar "$outdir/swagger-codegen-cli.jar" $args >/dev/null 2>&1
+    if [ -f $outdir/nether-${lang}-api/${name}.podspec ]; then
+	post_process $poddir/${name}.podspec
+    fi
     return 0
 }
 
@@ -226,8 +266,8 @@ publish_api_doc() {
     local lang="$1"
     local oldlist
     local newlist
-    [ -d $outdir/nether-${lang}-api/docs ] || return 0
-    pushd $outdir/nether-${lang}-api/ >/dev/null
+    [ -d $poddir/docs ] || return 0
+    pushd $poddir/ >/dev/null
     target=${docdir}/${lang}
     mkdir -p ${target}
     [ -d ${target} ] || exit_with_error "Cannot find directory ${target}"

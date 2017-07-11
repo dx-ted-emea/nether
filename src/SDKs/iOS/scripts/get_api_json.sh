@@ -8,11 +8,12 @@
 
 location="http://localhost:5000/api/swagger/v0.1/swagger.json"
 f=$(mktemp)
-curl -s "$location" > $f
+curl -sS "$location" > $f
 if [ $? -ne 0 ]; then
     rm -f $f
     exit_with_error "The Nether service must run locally on port 5000"
 fi
+
 if [ -f "$api_file" ]; then
     cmp -s $f "$api_file" >/dev/null 2>&1
     if [ $? -ne 0 ]; then

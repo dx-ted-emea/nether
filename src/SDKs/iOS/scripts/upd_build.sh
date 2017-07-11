@@ -5,7 +5,10 @@
 # license information.
 #
 . $(dirname $0)/common.inc
-gen_api objc
+build_nr=$(expr $build_nr + 1)
+echo $build_nr > "$bldfile"
+[ -f "$bldfile" ] && git add "$bldfile"
+
 exit 0
 #
 # Local Variables: 

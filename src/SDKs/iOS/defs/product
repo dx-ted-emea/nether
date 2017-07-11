@@ -1,0 +1,4 @@
+POD_NAME=NetherSDK
+POD_GIT=netherpod
+POD_VERSION=1
+POD_LANG=objc

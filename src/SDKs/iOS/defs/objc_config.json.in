@@ -1,7 +1,8 @@
 {
-    "classPrefix":"",
-    "podName":"NetherSDK",
-    "podLicense":"MIT License",
-    "authorName":"Microsoft Corporation",
-    "gitRepoURL":"@PODURL@"
+    "classPrefix":"SWG",
+    "podName":"@PODNAME@",
+    "gitRepoURL":"@PODURL@",
+    "podVersion":"@APIVERSION@",
+    "authorName":"@AUTHOR@",
+    "authorEmail":"@EMAIL@"
 }

@@ -15,19 +15,23 @@
 [ -n "${GIT_TOKEN}" ] || \
     exit_with_error "Environment varibale GIT_TOKEN not set."
 
-[ -d "$outdir/nether-objc-api" ] || \
-    exit_with_error "Directory $outdir/nether-objc-api not found."
+[ -d "$poddir" ] || \
+    exit_with_error "Directory $poddir not found."
 pscript=git_push.sh
-[ -f "$outdir/nether-objc-api/$pscript" ] ||\
+[ -f "$poddir/$pscript" ] ||\
     exit_with_error "Script $pscript not found."
+echo GIT_REPO_ID=${GIT_REPO_ID}
+echo GIT_USER_ID=${GIT_USER_ID}
+echo GIT_PUBLISHER_ID=${GIT_PUBLISHER_ID}
+echo GIT_TOKEN=${GIT_TOKEN}
 
-pushd "$outdir/nether-objc-api" >/dev/null
+pushd "$poddir/" >/dev/null
 if [ -r README.md ]; then
     sed -i -e "s/GIT_USER_ID/${GIT_PUBLISHER_ID}/g" README.md
     sed -i -e "s/GIT_REPO_ID/${GIT_REPO_ID}/g" README.md
     rm -f README.md-e
 fi
-$SHELL ./${pscript} $user $repo
+$SHELL ./${pscript} $GIT_USER_ID $GIT_REPO_ID
 popd >/dev/null
 
 exit 0

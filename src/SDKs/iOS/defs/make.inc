@@ -27,10 +27,4 @@ ifeq ($(POD),)
 $(error cocoapods not installed. Please see https://guides.cocoapods.org/using/getting-started.html)
 endif
 # -----------------------------------------------------------------------------
-ifeq ($(GIT_TOKEN),)
-$(error You need to create a personal access token on GitHub and store it in an environment variable named GIT_TOKEN)
-endif
-# -----------------------------------------------------------------------------
-LINT_INDICATOR=$(BUILD_DIR)/lint.done
-STRICT_LINT_INDICATOR=$(BUILD_DIR)/strictlint.done
-
+PODLINT_INDICATOR=$(BUILD_DIR)/lint.done

@@ -2,8 +2,10 @@
 # Licensed under the MIT License. See License.txt in the project root for
 # license information.
 #
-PROJ_ROOT=$(shell pwd)
+PROJ_ROOT=$(shell pwd -P)
+include $(PROJ_ROOT)/defs/product
 include $(PROJ_ROOT)/defs/make.inc
+PODSPEC=$(PROJ_ROOT)/$(POD_GIT)/$(POD_NAME).podspec
 
 all:: 	doc
 	@echo Done.
@@ -19,34 +21,41 @@ ifeq ($(CODEGEN),trunk)
 	@$(SCRIPT_DIR)/get_codegen_trunk.sh
 endif
 
-$(BUILD_DIR)/nether-objc-api/NetherSDK.podspec:: \
+$(PODSPEC):: \
+	$(DEF_DIR)/product \
 	$(BUILD_DIR)/objc_config.json \
 	$(BUILD_DIR)/nether_api.json \
 	$(BUILD_DIR)/nether_api.json \
 	$(BUILD_DIR)/swagger-codegen-cli.jar
+	@$(SCRIPT_DIR)/upd_build.sh
 	@$(SCRIPT_DIR)/gen_objc_api.sh
 
-$(BUILD_DIR)/objc_config.json: $(DEF_DIR)/objc_config.json.in
-	@(rm -f "$@" ; sed -e "s%@PODURL@%$(GIT_BASE_URL)/netherpod%g" \
-		< "$<" > "$@")
+$(BUILD_DIR)/objc_config.json: \
+	$(DEF_DIR)/objc_config.json.in $(BUILD_DIR)/nether_api.json \
+	$(DEF_DIR)/product
+	@(rm -f "$@" ; $(SCRIPT_DIR)/transform_config.sh < "$<" > "$@")
 
-$(LINT_INDICATOR): $(BUILD_DIR)/nether-objc-api/NetherSDK.podspec
-	@($(POD) lib lint --allow-warnings $< && touch $@)
+$(PODLINT_INDICATOR): $(PODSPEC)
+	($(POD) lib lint --allow-warnings --silent $< && touch $@)
 
-$(STRICT_LINT_INDICATOR): $(BUILD_DIR)/nether-objc-api/NetherSDK.podspec
-	@($(POD) lib lint $< && touch $@)
 
-lint:: $(LINT_INDICATOR)
+lint:: $(PODLINT_INDICATOR)
 	@true
 
-strictlint: $(STRICT_LINT_INDICATOR)
-	@true
-
-doc:: 	$(LINT_INDICATOR)
+doc:: 	$(PODLINT_INDICATOR)
 	@$(SCRIPT_DIR)/publish_api_docu.sh
 
-push:	$(LINT_INDICATOR)
+push:	$(PODLINT_INDICATOR)
+ifeq ($(GIT_TOKEN),)
+$(error You need to create a persnal access token in github and store it in environment varibale GIT_TOKEN if you want to publish the CocoaPod to github)
+endif
 	@$(SCRIPT_DIR)/push_pod.sh
 
 clean::
+	@rm -rf $(PROJ_ROOT)/$(POD_GIT)/$(POD_NAME)
+	@rm -rf $(PROJ_ROOT)/$(POD_GIT)/docs
+	@rm -rf $(PODSPEC)
+	@rm -f  $(BUILD_DIR)/*.json $(BUILD_DIR)/lint.*
+
+veryclean:: clean
 	@[ -d "$(BUILD_DIR)" ] && rm -rf $(BUILD_DIR)
