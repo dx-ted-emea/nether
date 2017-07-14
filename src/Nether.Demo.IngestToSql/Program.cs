@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 //using Microsoft.Azure.EventHubs.Processor;
+
 using Microsoft.Azure.EventHubs.Processor;
 using Nether.EventHubs;
 using Nether.Ingest;
@@ -89,6 +90,7 @@ namespace Nether.Demo.IngestToSql
              var sqlOutputManager = new SQLDatabaseOutputManager(Config.Root[Config.NAH_AZURE_SQLUTPUTMANAGER_CONNECTIONSTRING],columntoDatatypeMapping, true);
 
             builder.DefaultPipeline
+                .AddHandler(new UnixTimeToDateTimeMessageHandler("install_time", "event_time"))
                 .OutputTo(sqlOutputManager);
 
             // Build all pipelines
