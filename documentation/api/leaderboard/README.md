@@ -14,6 +14,6 @@ The following information is common to all tasks that you might do related to le
 
 Method  | Request URI                   | Description |
 ------- | ------------------------------|-------------|
-GET|[`/api/leaderboard/{type}`](leaderboard-get.md)|Query leaderboard of a specific type|
-POST|[`/api/scores`](scores-post.md)|Post new score for the current user|
+GET|[`/api/leaderboard/{leaderboardname}/{startposition}/{maxresults}/{timeframe}/{location}`](leaderboard-get.md)|Query leaderboard of a specific name, timeframe and location|
+POST|[`/api/scores`](updateplayerscore.md)|Post new score for the current user|
 DELETE|[`/api/scores`](leaderboard-delete.md)|Delete all scores for the current user|
