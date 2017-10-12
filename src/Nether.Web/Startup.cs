@@ -151,6 +151,15 @@ namespace Nether.Web
                 {
                     Version = "v0.1",
                     Title = "Project Nether",
+                    Description = @"Nether is a project composed of reusable set of building blocks, projects, services and best
+practices designed for Gaming workloads powered by Microsoft Azure, aimed to be beneficial for 
+many type of game developers seeking inspiration or a fully implemented solution.",
+                    Contact = new Contact 
+                    {
+                        Name = "Nether Project Team",
+                        Email = "nether@github.com",
+                        Url = "https://github.com/MicrosoftDX/nether"
+                    },
                     License = new License
                     {
                         Name = "MIT",

@@ -1,0 +1,8 @@
+{
+    "classPrefix":"SWG",
+    "podName":"@PODNAME@",
+    "gitRepoURL":"@PODURL@",
+    "podVersion":"@APIVERSION@",
+    "authorName":"@AUTHOR@",
+    "authorEmail":"@EMAIL@"
+}

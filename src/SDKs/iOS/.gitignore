@@ -1,0 +1,6 @@
+build_dir/
+.swagger-codegen/
+.swagger-codegen-ignore
+.DS_Store
+TestClient/
+netherpod/
