@@ -1,8 +1,10 @@
 $netherRoot = $PSScriptRoot
 
+$ErrorActionPreference = "Stop"
+
 function RunIntegrationTests() {
     # launch Nether.Web
-    Start-Process powershell "$netherRoot\rundev.ps1"
+    Start-Process powershell "$netherRoot\rundev.ps1 > '$netherRoot\nether.web.log'"
 
     # test for 200 OK from GET http://localhost:5000
     # with a retry window of 300 seconds 
@@ -22,15 +24,17 @@ function RunIntegrationTests() {
     }
 
     if (-not $loaded) {
-        exit 100
+        return 100
     }
 
     &"$netherRoot\run-integration-tests.ps1"
     if ($LASTEXITCODE -ne 0) {
         $testExitCode = $LASTEXITCODE
         Write-Host "Integration tests failed: $testExitCode"
-        exit $testExitCode
+        return $testExitCode
     }
+
+    return 0
 }
 
 function ConfigureSqlServer() {
@@ -50,6 +54,22 @@ function ConfigureSqlServer() {
     ${env:Analytics:Store:properties:ConnectionString} = "Server=(local)\SQL2016;Database=nether;User ID=sa;Password=Password12!"
 }
 
+function RenameWithRetry($filename, $newfilename) {
+    $count = 0
+    while ($count -lt 10) {
+        try {
+            Rename-Item $filename $newfilename
+            return
+        } 
+        catch {
+            Write-Host "Rename failed... retrying"
+        }
+        Start-Sleep -Seconds 5
+        $count += 1
+    }
+    Write-Host "Rename failed!"
+    exit -100
+}
 Write-Host "***************************************************************************"
 Write-Host " _       _                       _   _               _            _"
 Write-Host "(_)_ __ | |_ ___  __ _ _ __ __ _| |_(_) ___  _ __   | |_ ___  ___| |_ ___"
@@ -63,14 +83,32 @@ Write-Host "********************************************************************
 # Run integration tests with default configuration (in-memory)
 Write-Host "******************"
 Write-Host "*** Running integration tests: in-memory"
-RunIntegrationTests
+$status = RunIntegrationTests
+Write-Host "*** Tests completed with status '$status'"
 
 # kill the web server (brute force - killing all dotnet processes!)
 Stop-Process -Name dotnet
+RenameWithRetry "$netherRoot\nether.web.log" "$netherRoot\nether.web-inmemory.log"
+# Push-AppveyorArtifact "$netherRoot\nether.web-inmemory.log" -FileName nether.web-inmemory.txt
+
+if ($status -ne 0) {
+    Write-Host "Exiting with status $status"
+    exit $status
+}
+
 
 ConfigureSqlServer
 Write-Host "******************"
 Write-Host "*** Running integration tests: SQL Server"
-RunIntegrationTests
+$status = RunIntegrationTests
+Write-Host "*** Tests completed with status '$status'"
 
+# kill the web server (brute force - killing all dotnet processes!)
+Stop-Process -Name dotnet
+RenameWithRetry "$netherRoot\nether.web.log" "$netherRoot\nether.web-sql.log"
+Push-AppveyorArtifact "$netherRoot\nether.web-sql.log" -FileName nether.web-sql.txt
 
+if ($status -ne 0) {
+    Write-Host "Exiting with status $status"
+    exit $status
+}

@@ -15,6 +15,7 @@ using IdentityServer4.Validation;
 using Nether.Common.DependencyInjection;
 using Nether.Web.Features.Identity.Configuration;
 using Nether.Web.Utilities;
+using System.IO;
 
 namespace Nether.Web.Features.Identity
 {
@@ -64,6 +65,10 @@ namespace Nether.Web.Features.Identity
                 throw new NotSupportedException($"The Identity Server configuration is currently only intended for Development environments. Current environment: '{hostingEnvironment.EnvironmentName}'");
             }
 
+            if (!Directory.Exists("runtime-artifacts"))
+            {
+                Directory.CreateDirectory("runtime-artifacts");
+            }
             var clientSource = new ConfigurationBasedClientSource(logger);
             var clients = clientSource.LoadClients(configuration.GetSection("Identity:Clients"))
                                 .ToList();
@@ -74,7 +79,7 @@ namespace Nether.Web.Features.Identity
                     options.Endpoints.EnableTokenEndpoint = true;
                     options.UserInteraction.ErrorUrl = "/account/error";
                 })
-                .AddTemporarySigningCredential() // using inbuilt signing cert, but we are explicitly a dev-only service at this point ;-)
+                .AddDeveloperSigningCredential(filename: "runtime-artifacts/identity-cert") // using temporary signing cert, but we are explicitly a dev-only service at this point ;-)
                 .AddInMemoryClients(clients)
                 .AddInMemoryIdentityResources(Scopes.GetIdentityResources())
                 .AddInMemoryApiResources(Scopes.GetApiResources())
