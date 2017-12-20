@@ -200,15 +200,17 @@ public static int NumberWithSameScores(List<LeaderboardItem> listToRank, int sta
 public class ScoreItem
 {
     [JsonProperty(PropertyName = "id")]
-    public string Id { get; set; }
+    public string Id { get; set;}    
     [JsonProperty(PropertyName = "leaderboard")]
-    public string Leaderboard { get; set; }
+    public string Leaderboard { get; set;}    
     [JsonProperty(PropertyName = "player")]
-    public string Player { get; set; }
+    public string Player { get; set;}
     [JsonProperty(PropertyName = "playerId")]
-    public string PlayerId { get; set; }
+    public string PlayerId { get; set;}
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
-    public double Score { get; set; }
+    public double Score { get; set;}
 }
 
 public class LeaderboardItem
@@ -217,6 +219,8 @@ public class LeaderboardItem
     public int Rank { get; set; }
     [JsonProperty(PropertyName = "player")]
     public string Player { get; set; }
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set; }
 }
