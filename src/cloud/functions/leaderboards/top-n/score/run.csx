@@ -59,6 +59,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     postedScore.PlayerId = data?.playerId;
     postedScore.Player = data?.player;
     postedScore.Score = data?.score;
+    postedScore.Timestamp = DateTime.UtcNow;
 
     try
     {
@@ -84,6 +85,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
                 if (postedScore.Score>existingPlayer.Score)
                 {
                     existingPlayer.Score = postedScore.Score;
+                    existingPlayer.Timestamp = postedScore.Timestamp;
                     await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(db, collection, existingPlayer.Id), postedScore);
                     return req.CreateResponse(HttpStatusCode.OK, $"The score  for user {existingPlayer.PlayerId} has been updated to {postedScore.Score}");
                 } 
@@ -107,6 +109,8 @@ public class ScoreItem
     public string Player { get; set;}
     [JsonProperty(PropertyName = "playerId")]
     public string PlayerId { get; set;}
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set;}
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set;}
 }

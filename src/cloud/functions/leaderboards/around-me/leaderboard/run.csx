@@ -118,7 +118,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
         {
             foreach (ScoreItem scr in sortedListPositionsBelowCurrent)
             {
-                sortedResult.Add(new LeaderboardItem { Rank = 0, Player = scr.Player, Score = scr.Score });
+                sortedResult.Add(new LeaderboardItem { Rank = 0, Player = scr.Player, Timestamp = src.Timestamp, Score = scr.Score });
             }
         }
 
@@ -171,6 +171,8 @@ public class ScoreItem
     public string Player { get; set; }
     [JsonProperty(PropertyName = "playerId")]
     public string PlayerId { get; set; }
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set; }
 }
@@ -181,6 +183,8 @@ public class LeaderboardItem
     public int Rank { get; set; }
     [JsonProperty(PropertyName = "player")]
     public string Player { get; set; }
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set; }
 }

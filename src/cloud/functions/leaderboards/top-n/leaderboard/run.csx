@@ -58,7 +58,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         var query = 
             (from s in leaderboard
             orderby s.Score descending
-            select new LeaderboardItem {Player = s.Player, Score = s.Score}).Take(lengthOfLeaderboard);
+            select new LeaderboardItem {Player = s.Player, Timestamp = s.Timestamp, Score = s.Score}).Take(lengthOfLeaderboard);
 
         var leaders = query.ToList();
 
@@ -98,6 +98,8 @@ public class ScoreItem
     public string Player { get; set;}
     [JsonProperty(PropertyName = "playerId")]
     public string PlayerId { get; set;}
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set;}
 }
@@ -108,6 +110,8 @@ public class LeaderboardItem
     public int Rank { get; set; }
     [JsonProperty(PropertyName = "player")]
     public string Player { get; set; }
+    [JsonProperty(PropertyName = "timestamp")]
+    public DateTime Timestamp { get; set; }
     [JsonProperty(PropertyName = "score")]
     public double Score { get; set; }
 }
